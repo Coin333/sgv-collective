@@ -1,26 +1,36 @@
 /**
  * Intro curtain words and timing.
  *
- * The words are SGV's own line about Everything Night, lifted from
- * lib/data/events.ts: "Worship, dinner, dodgeball, and a real conversation
- * about Jesus." Every word is Latin-subset, which Inter already covers via
- * next/font, so no word can trigger a mid-cycle font fallback jump.
+ * The original multilingual greeting sequence from the Awwwards Hero
+ * Animations 5 component, kept verbatim along with its snappy cadence (first
+ * word holds ~1s, then a greeting every 0.15s). Note "やあ" is outside Inter's
+ * latin subset, so it falls back to a system font (Hiragino on macOS) for that
+ * one word; it renders, just in a slightly different face.
  *
  * No module here may import React or touch the DOM: page.tsx renders
  * INTRO_WORDS[0] on the server, and it has to match the client exactly.
  */
-export const INTRO_WORDS = ["Worship", "Dinner", "Dodgeball", "Jesus"] as const;
+export const INTRO_WORDS = [
+  "Hello",
+  "Bonjour",
+  "Ciao",
+  "Olá",
+  "やあ",
+  "Hallå",
+  "Guten tag",
+  "Hallo",
+] as const;
 
 export const INTRO_TIMING = {
   wordFadeDelay: 0.15,
   wordFadeDuration: 0.6,
   wordOpacity: 0.75,
   /** How long the first word holds before the cycle starts stepping. */
-  firstHold: 0.7,
+  firstHold: 1.0,
   /** Gap between each subsequent word. */
-  step: 0.4,
+  step: 0.15,
   /** How long the last word holds before the curtain leaves. */
-  lastHold: 0.5,
+  lastHold: 0.8,
   wordOutDuration: 0.3,
   liftDuration: 0.7,
   liftDelay: 0.15,
