@@ -12,6 +12,8 @@ import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ParallaxImage } from "@/components/parallax-image";
 import { ClubCard } from "@/components/club-card";
+import { HeroBackdrop } from "@/components/hero/hero-backdrop";
+import { HeroIntro } from "@/components/hero/hero-intro";
 import { clubs } from "@/lib/data/clubs";
 import { featuredEvent } from "@/lib/data/events";
 
@@ -21,20 +23,13 @@ export default function HomePage() {
   return (
     <>
       <section className="relative min-h-[100svh] overflow-hidden bg-[var(--color-navy)]">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/everything-night-main.jpg"
-            alt="Everything Night group photo"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover animate-slow-drift"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy)]/70 via-[var(--color-navy)]/40 to-[var(--color-navy)]/95" />
-          <div className="absolute inset-0 bg-dot-grid-dark opacity-25" />
-        </div>
+        <HeroIntro />
+        <HeroBackdrop />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:pt-40 md:pb-28 min-h-[100svh] flex flex-col justify-center">
+        {/* z-40 keeps the copy above every backdrop layer (canvas z-10,
+            gradient z-20, dot grid z-30). Without it this is z-auto and the
+            opaque lens canvas paints straight over the headline and CTAs. */}
+        <div className="relative z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:pt-40 md:pb-28 min-h-[100svh] flex flex-col justify-center">
           <div className="max-w-3xl">
             <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase text-[var(--color-baby)]">
               <span className="w-6 h-px bg-[var(--color-baby)]" />

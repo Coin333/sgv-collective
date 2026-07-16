@@ -123,6 +123,68 @@ html {
   animation: shimmer 8s linear infinite;
 }
 
+/* Hero intro curtain. Hidden by default and shown only when the pre-paint
+   script in layout.tsx sets data-hero-intro="play" on <html>. Gating in CSS
+   (not React state) is what keeps the server and client markup identical. */
+.hero-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-navy);
+}
+html[data-hero-intro="play"] .hero-curtain {
+  display: flex;
+}
+/* Sized to contain the Bezier control point at H+300, though only 150px of
+   bulge actually renders (the curve's peak is half the control offset).
+   No viewBox on purpose: it keeps 1 user unit === 1 CSS px so the path can be
+   written in raw viewport pixels. preserveAspectRatio is omitted because it is
+   a no-op without a viewBox. */
+.hero-curtain__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 300px);
+}
+.hero-curtain__path {
+  fill: var(--color-navy);
+}
+/* Centers via the flex static-position rule for an abspos flex child.
+   Do not change .hero-curtain's display or this moves to the top-left. */
+.hero-curtain__word {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  font-size: 42px;
+  line-height: 1;
+  color: #ffffff;
+  opacity: 0;
+}
+@media (max-width: 767px) {
+  .hero-curtain__word {
+    font-size: 32px;
+  }
+}
+.hero-curtain__dot {
+  display: block;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border-radius: 999px;
+  background: var(--color-baby);
+}
+/* The lens canvas cannot follow a CSS keyframe, so when the lens is live the
+   base image parks at slow-drift's 0% keyframe and the shader matches it. */
+.hero-base-still {
+  transform: scale(1.05);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
