@@ -1,290 +1,293 @@
-import Image from "next/image";
-import {
-  ArrowRight,
-  Calendar,
-  Heart,
-  MapPin,
-  Sparkles,
-  Users2,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { CTAButton } from "@/components/buttons";
-import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { ParallaxImage } from "@/components/parallax-image";
 import { ClubCard } from "@/components/club-card";
+import { ValleyCrossHero } from "@/components/hero/valley-cross-hero";
 import { clubs } from "@/lib/data/clubs";
-import { featuredEvent } from "@/lib/data/events";
+import { cn } from "@/lib/utils";
+
+const ink = "text-[#1d1d1f]";
+const muted = "text-[#6e6e73]";
+const h2 =
+  "font-display font-semibold tracking-[-0.04em] leading-[1] text-balance text-[clamp(2.5rem,6.5vw,5.5rem)]";
+
+function Eyebrow({ children, dark }: { children: string; dark?: boolean }) {
+  return (
+    <p
+      className={cn(
+        "text-xs sm:text-sm font-medium tracking-[0.18em] uppercase",
+        dark ? "text-[var(--color-baby)]" : muted,
+      )}
+    >
+      {children}
+    </p>
+  );
+}
+
+function TextLink({ href, children }: { href: string; children: string }) {
+  return (
+    <CTAButton
+      href={href}
+      variant="ghost"
+      className="rounded-full px-0 py-0 text-[var(--color-sky-600)] hover:bg-transparent hover:text-[var(--color-navy)] text-lg"
+    >
+      {children}
+      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+    </CTAButton>
+  );
+}
 
 export default function HomePage() {
   const previewClubs = clubs.slice(0, 6);
 
   return (
     <>
-      <section className="relative min-h-[100svh] overflow-hidden bg-[var(--color-navy)]">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/everything-night-main.jpg"
-            alt="Everything Night group photo"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover animate-slow-drift"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy)]/70 via-[var(--color-navy)]/40 to-[var(--color-navy)]/95" />
-          <div className="absolute inset-0 bg-dot-grid-dark opacity-25" />
-        </div>
+      <ValleyCrossHero />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:pt-40 md:pb-28 min-h-[100svh] flex flex-col justify-center">
-          <div className="max-w-3xl">
-            <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase text-[var(--color-baby)]">
-              <span className="w-6 h-px bg-[var(--color-baby)]" />
-              San Gabriel Valley
+      <section id="who-we-are" className="bg-white py-28 md:py-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal className="text-center">
+            <Eyebrow>Who we are</Eyebrow>
+            <h2 className={cn(h2, ink, "mt-4")}>One family. One purpose.</h2>
+          </ScrollReveal>
+          <div className="mt-20 grid gap-14 md:grid-cols-3 md:gap-10">
+            {[
+              {
+                title: "We're family.",
+                body: "Every follower of Jesus in this valley belongs to the same family, the family of Christ. Different schools, same household.",
+                ref: "Ephesians 2:19",
+              },
+              {
+                title: "We have a purpose.",
+                body: "Like John the Baptist, we're here to prepare the way for Jesus. That means making room for Him on every campus, and making room for students to thrive in the gifts God gave them.",
+                ref: "John 1:23, Isaiah 40:3",
+              },
+              {
+                title: "We serve first.",
+                body: "We exist to resource the clubs, not to ask the clubs to resource us. Whether our name is on it or not, if Jesus is lifted up, we rejoice.",
+                ref: "Philippians 1:18",
+              },
+            ].map((p, i) => (
+              <ScrollReveal key={p.title} delay={i * 100}>
+                <h3
+                  className={cn(
+                    "font-display text-3xl font-semibold tracking-[-0.03em]",
+                    ink,
+                  )}
+                >
+                  {p.title}
+                </h3>
+                <p className={cn("mt-4 text-lg leading-relaxed", muted)}>
+                  {p.body}
+                </p>
+                <p className="mt-4 text-sm font-medium text-[var(--color-sky-600)]">
+                  {p.ref}
+                </p>
+              </ScrollReveal>
+            ))}
+          </div>
+          <ScrollReveal className="mt-16 text-center">
+            <TextLink href="/about">Read our mission</TextLink>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-[var(--color-navy)] py-28 md:py-40 text-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <ScrollReveal>
+            <Eyebrow dark>2026–27</Eyebrow>
+            <h2 className={cn(h2, "mt-4")}>This year: joyful community.</h2>
+            <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl leading-relaxed text-[var(--color-sky-200)]">
+              Every year we pray and ask one question: what does God want us to
+              do in the valley this year? For 2026–27, the answer was joyful
+              community and connection: creating spaces and hosting gatherings
+              where Christians across the valley actually get to know each
+              other, so you never feel alone at your school.
             </p>
-            <h1 className="mt-5 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white text-balance leading-[1.05]">
-              Christian clubs. <span className="shimmer-text">One valley.</span>{" "}
-              <span className="text-[var(--color-baby)]">One mission.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-base md:text-lg text-white leading-relaxed [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
-              A regional network of high school Christian clubs across the SGV.
-              Welcoming. Open to anyone curious about Jesus.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <CTAButton href="/everything-night" variant="secondary" size="lg">
-                Come to Everything Night
+          </ScrollReveal>
+          <ScrollReveal delay={120}>
+            <blockquote className="mt-16 mx-auto max-w-3xl">
+              <p className="font-display text-2xl md:text-4xl font-medium tracking-[-0.02em] leading-snug text-white">
+                &ldquo;They broke bread in their homes and ate together with
+                glad and sincere hearts.&rdquo;
+              </p>
+              <footer className="mt-4 text-sm font-medium text-[var(--color-baby)]">
+                Acts 2:46
+              </footer>
+            </blockquote>
+            <div className="mt-12">
+              <CTAButton
+                href="/events"
+                variant="secondary"
+                size="lg"
+                className="rounded-full"
+              >
+                See gatherings
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </CTAButton>
-              <CTAButton
-                href="/clubs"
-                variant="ghost"
-                size="lg"
-                className="text-white hover:bg-white/10"
-              >
-                Find your campus
-              </CTAButton>
             </div>
-
-            <dl className="mt-14 grid grid-cols-3 gap-6 max-w-lg">
-              {[
-                { n: "20", l: "Schools" },
-                { n: "1", l: "Valley" },
-                { n: "All", l: "Welcome" },
-              ].map((s) => (
-                <div key={s.l}>
-                  <dt className="text-3xl md:text-4xl font-bold text-white">
-                    {s.n}
-                  </dt>
-                  <dd className="text-xs uppercase tracking-widest text-[var(--color-baby)] mt-1">
-                    {s.l}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
+          </ScrollReveal>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
       </section>
 
-      <Section
-        eyebrow="Why we exist"
-        title="One mission, every campus."
-        description="The collective links 20 schools so no student has to walk in faith alone. Worship together, eat together, ask hard questions, and bring a friend."
-        tone="white"
+      <section
+        id="for-clubs"
+        className="scroll-mt-16 bg-[#f5f5f7] py-28 md:py-40"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: Users2,
-              title: "Connection",
-              body: "We link clubs across the valley so students from every school can build real friendships.",
-            },
-            {
-              icon: Heart,
-              title: "Welcoming",
-              body: "Open doors for anyone curious about Jesus, whether you grew up in church or have never set foot in one.",
-            },
-            {
-              icon: Sparkles,
-              title: "Real faith",
-              body: "Rooted in scripture, lived out on campus, expressed in worship and friendship.",
-            },
-          ].map((f, i) => (
-            <ScrollReveal key={f.title} delay={i * 90}>
-              <article className="group h-full rounded-2xl border border-[var(--color-sky-100)] bg-white p-7 hover:border-[var(--color-baby)] hover:shadow-lg hover:shadow-[var(--color-navy)]/5 transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)] group-hover:bg-[var(--color-baby)] transition">
-                  <f.icon className="w-5 h-5" aria-hidden="true" />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal className="text-center">
+            <Eyebrow>For clubs</Eyebrow>
+            <h2 className={cn(h2, ink, "mt-4")}>Built to serve your club.</h2>
+            <p
+              className={cn(
+                "mt-6 mx-auto max-w-2xl text-lg md:text-xl leading-relaxed",
+                muted,
+              )}
+            >
+              Free resources for every Christian club in the SGV. There&apos;s
+              no catch and nothing to sign up for. If your club wants to help
+              plan a gathering later, we&apos;d love that. It&apos;s never the
+              price of admission.
+            </p>
+          </ScrollReveal>
+          <div className="mt-16 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                n: "01",
+                title: "Leader training and support",
+                body: "Running a meeting, leading a Bible study, inviting friends, keeping a club going.",
+              },
+              {
+                n: "02",
+                title: "Pocket cards",
+                body: "Printable cards that point new believers to a next step.",
+              },
+              {
+                n: "03",
+                title: "Connection to local churches",
+                body: "A youth group to point people toward, or a pastor for the hard questions.",
+              },
+            ].map((r, i) => (
+              <ScrollReveal key={r.title} delay={i * 100}>
+                <article className="h-full rounded-3xl bg-white p-8 md:p-10 transition-transform duration-300 hover:-translate-y-1">
+                  <p className="font-display text-sm font-semibold text-[var(--color-sky-600)]">
+                    {r.n}
+                  </p>
+                  <h3
+                    className={cn(
+                      "mt-6 font-display text-2xl md:text-3xl font-semibold tracking-[-0.03em] leading-tight",
+                      ink,
+                    )}
+                  >
+                    {r.title}
+                  </h3>
+                  <p className={cn("mt-4 text-base leading-relaxed", muted)}>
+                    {r.body}
+                  </p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+          <ScrollReveal className="mt-14 text-center">
+            <TextLink href="/contact">Request a resource</TextLink>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-white py-28 md:py-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal className="text-center">
+            <Eyebrow>The clubs</Eyebrow>
+            <h2 className={cn(h2, ink, "mt-4")}>20 schools. One family.</h2>
+            <p className={cn("mt-6 text-lg md:text-xl", muted)}>
+              From Pasadena to Glendora, La Crescenta to Temple City. Find your
+              campus, or start a club at yours.
+            </p>
+          </ScrollReveal>
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {previewClubs.map((c, i) => (
+              <ScrollReveal key={c.slug} delay={i * 60}>
+                <ClubCard club={c} />
+              </ScrollReveal>
+            ))}
+          </div>
+          <ScrollReveal className="mt-14 text-center">
+            <TextLink href="/clubs">See all 20 clubs</TextLink>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f5f7] py-28 md:py-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal className="text-center">
+            <Eyebrow>Where we&apos;ve been</Eyebrow>
+            <h2 className={cn(h2, ink, "mt-4")}>Gatherings so far.</h2>
+          </ScrollReveal>
+          <div className="mt-16 grid gap-5 md:grid-cols-3">
+            {[
+              { big: "140+", label: "students at Everything Night 2025" },
+              { big: "100+", label: "students at Everything Night 2026" },
+            ].map((s, i) => (
+              <ScrollReveal key={s.label} delay={i * 100}>
+                <div className="h-full rounded-3xl bg-white p-8 md:p-10">
+                  <p
+                    className={cn(
+                      "font-display text-7xl md:text-8xl font-semibold tracking-[-0.05em]",
+                      ink,
+                    )}
+                  >
+                    {s.big}
+                  </p>
+                  <p className={cn("mt-4 text-lg", muted)}>{s.label}</p>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-[var(--color-navy)]">
-                  {f.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                  {f.body}
+              </ScrollReveal>
+            ))}
+            <ScrollReveal delay={200}>
+              <div className="h-full rounded-3xl bg-white p-8 md:p-10 flex flex-col justify-between">
+                <p className={cn("text-lg", muted)}>
+                  Worship nights through the year
                 </p>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
-      </Section>
-
-      <section className="relative py-20 md:py-28 bg-[var(--color-cream)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <ScrollReveal>
-              <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase text-[var(--color-sky-600)]">
-                <span className="w-6 h-px bg-[var(--color-sky-300)]" />
-                Featured event
-              </p>
-              <h2 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-[var(--color-navy)]">
-                Everything Night
-              </h2>
-              <p className="mt-2 text-2xl md:text-3xl font-semibold text-[var(--color-baby)]">
-                Everything for everyone.
-              </p>
-              <p className="mt-5 text-base md:text-lg text-[var(--color-sky-700)] leading-relaxed max-w-lg">
-                Worship, dinner, dodgeball, and a real conversation about Jesus.
-                Hundreds of students from across the valley, one night.
-              </p>
-              <ul className="mt-7 space-y-3 text-sm text-[var(--color-navy)]">
-                <li className="flex items-center gap-3">
-                  <Calendar
-                    className="w-4 h-4 text-[var(--color-baby)]"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    {featuredEvent.date} starting at {featuredEvent.time}
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <MapPin
-                    className="w-4 h-4 text-[var(--color-baby)]"
-                    aria-hidden="true"
-                  />
-                  <span>{featuredEvent.location}</span>
-                </li>
-              </ul>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <CTAButton href="/everything-night" variant="primary" size="lg">
-                  See the night
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </CTAButton>
-                <CTAButton href="/contact" variant="outline" size="lg">
-                  Bring a friend
-                </CTAButton>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={120}>
-              <div className="relative grid grid-cols-6 grid-rows-6 gap-3 h-[520px]">
-                <div className="col-span-4 row-span-4 relative rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/everything-night-crowd.jpg"
-                    alt="Crowd at Everything Night"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="col-span-2 row-span-3 relative rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/everything-night-band.jpg"
-                    alt="Worship band on stage"
-                    fill
-                    sizes="(max-width: 768px) 50vw, 20vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="col-span-2 row-span-3 relative rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/everything-night-dodgeball.jpg"
-                    alt="Dodgeball at Everything Night"
-                    fill
-                    sizes="(max-width: 768px) 50vw, 20vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="col-span-3 row-span-2 relative rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/everything-night-dinner.jpg"
-                    alt="Dinner outside"
-                    fill
-                    sizes="(max-width: 768px) 50vw, 20vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="col-span-3 row-span-2 relative rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/everything-night-picnic.jpg"
-                    alt="Friends on the lawn"
-                    fill
-                    sizes="(max-width: 768px) 50vw, 20vw"
-                    className="object-cover"
-                  />
-                </div>
+                <ul
+                  className={cn(
+                    "mt-6 font-display text-3xl md:text-4xl font-semibold tracking-[-0.03em] leading-tight",
+                    ink,
+                  )}
+                >
+                  <li>Chosen</li>
+                  <li>Salt &amp; Light</li>
+                  <li>Homeward</li>
+                </ul>
               </div>
             </ScrollReveal>
           </div>
+          <ScrollReveal className="mt-14 text-center">
+            <TextLink href="/events">Past gatherings</TextLink>
+          </ScrollReveal>
         </div>
       </section>
 
-      <Section
-        eyebrow="The clubs"
-        title="20 schools. One collective."
-        description="From Pasadena to Glendora, La Crescenta to Temple City. Find your campus, or join the regional gatherings."
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {previewClubs.map((c, i) => (
-            <ScrollReveal key={c.slug} delay={i * 60}>
-              <ClubCard club={c} />
-            </ScrollReveal>
-          ))}
-        </div>
-        <div className="mt-10">
-          <CTAButton href="/clubs" variant="outline">
-            See all 20 clubs
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </CTAButton>
-        </div>
-      </Section>
-
-      <section className="relative h-[60vh] min-h-[420px] overflow-hidden">
-        <ParallaxImage
-          src="/images/chosen-dab.jpg"
-          alt="Through Him, we are chosen"
-          className="absolute inset-0"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[var(--color-navy)]/60" />
-        <div className="relative h-full flex items-center justify-center text-center px-6">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-[var(--color-baby)]">
-              Through Him
-            </p>
-            <p className="mt-4 text-4xl md:text-6xl font-bold text-white tracking-tight">
-              we are <span className="text-[var(--color-baby)]">chosen.</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Section tone="cream" align="center">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--color-navy)] text-balance">
-            Curious? Come once. No pressure.
-          </h2>
-          <p className="mt-4 text-base md:text-lg text-[var(--color-sky-700)] leading-relaxed">
-            Find a club at your school, or just show up to Everything Night and
-            see for yourself.
+      <section className="bg-white py-32 md:py-48">
+        <ScrollReveal className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className={cn(h2, ink)}>Curious about Jesus? Come once.</h2>
+          <p className={cn("mt-6 text-lg md:text-xl", muted)}>
+            Find a club at your school and just show up. No pressure, no
+            pretending.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <CTAButton href="/clubs" variant="primary" size="lg">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <CTAButton href="/clubs" size="lg" className="rounded-full">
               Find a club
             </CTAButton>
-            <CTAButton href="/contact" variant="outline" size="lg">
+            <CTAButton
+              href="/contact"
+              variant="outline"
+              size="lg"
+              className="rounded-full"
+            >
               Get in touch
             </CTAButton>
           </div>
-        </div>
-      </Section>
+        </ScrollReveal>
+      </section>
     </>
   );
 }

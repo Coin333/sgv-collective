@@ -107,10 +107,10 @@ export function ScrollNav() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="/everything-night"
+            href="/clubs"
             className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-[var(--color-navy)] text-white hover:bg-[var(--color-navy-soft)] transition-all duration-200 cursor-pointer shadow-md shadow-[var(--color-navy)]/20"
           >
-            RSVP for May 24
+            Find your club
           </Link>
           <button
             type="button"
@@ -155,10 +155,10 @@ export function ScrollNav() {
             );
           })}
           <Link
-            href="/everything-night"
+            href="/clubs"
             className="col-span-2 mt-1 px-3 py-2.5 rounded-lg text-sm font-semibold bg-[var(--color-baby)] text-[var(--color-navy)] text-center"
           >
-            RSVP for May 24
+            Find your club
           </Link>
         </div>
       </div>

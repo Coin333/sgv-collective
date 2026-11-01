@@ -57,7 +57,7 @@ const clubsRaw: Omit<Club, "logo" | "instagrams">[] = [
     shortName: "Pasadena HS",
     city: "Pasadena",
     description:
-      "Home base for Everything Night. A core campus in the collective.",
+      "Pasadena High's Jesus Club. Host campus for Everything Night 2026.",
   },
   {
     slug: "san-marino",
@@ -71,7 +71,7 @@ const clubsRaw: Omit<Club, "logo" | "instagrams">[] = [
     school: "Arcadia High School",
     shortName: "Arcadia HS",
     city: "Arcadia",
-    description: "One of the largest Christian clubs in the SGV.",
+    description: "Two clubs, one campus: FCA and Allies.",
   },
   {
     slug: "south-pasadena",
