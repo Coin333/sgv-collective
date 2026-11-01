@@ -132,7 +132,7 @@ export default function HomePage() {
 
       <section
         id="for-clubs"
-        className="scroll-mt-16 bg-[#f5f5f7] py-28 md:py-40"
+        className="scroll-mt-12 bg-[#f5f5f7] py-28 md:py-40"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal className="text-center">

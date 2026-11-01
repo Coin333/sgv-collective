@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { CTAButton } from "@/components/buttons";
 import { cn } from "@/lib/utils";
+import type { TerrainData } from "./valley-cross-terrain";
 
 // Scroll windows (0 to 1 across the pinned section) for each text beat. The
 // first is already on screen at load; the last stays once it arrives.
@@ -96,21 +97,46 @@ export function ValleyCrossHero() {
       cancelAnimationFrame(raf);
     }
 
-    // Loaded on demand so three.js stays out of the first JS chunk.
-    import("./valley-cross-scene")
-      .then(({ createValleyCross }) => {
+    // Terrain is generated in a worker so scrolling stays smooth while it
+    // builds. three.js loads in parallel and stays out of the first JS chunk.
+    const wide = window.innerWidth >= 1024;
+    const opts = { cells: wide ? 80 : 64, trees: wide ? 4200 : 2600 };
+    let worker: Worker | undefined;
+    const onMainThread = () =>
+      import("./valley-cross-terrain").then((m) =>
+        m.generateTerrain(opts.cells, opts.trees),
+      );
+    const terrain = new Promise<TerrainData>((resolve) => {
+      try {
+        worker = new Worker(
+          new URL("./valley-cross.worker.ts", import.meta.url),
+          { type: "module" },
+        );
+        worker.onmessage = (e: MessageEvent<TerrainData>) => resolve(e.data);
+        worker.onerror = () => onMainThread().then(resolve);
+        worker.postMessage(opts);
+      } catch {
+        onMainThread().then(resolve);
+      }
+    });
+
+    Promise.all([import("./valley-cross-scene"), terrain])
+      .then(async ([{ createValleyCross }, data]) => {
+        worker?.terminate();
         if (cancelled) return;
-        try {
-          scene = createValleyCross(canvas);
-          // Draw now rather than waiting on the loop, which may be paused
-          // until the first scroll or intersection callback.
-          scene.render(current, performance.now() / 1000);
-          canvas.style.opacity = "1";
-          if (posterRef.current) posterRef.current.style.opacity = "0";
-        } catch {
-          // No WebGL: the text beats still run over the plain backdrop.
+        const built = await createValleyCross(canvas, data, wide ? 4 : 3);
+        if (cancelled) {
+          built.dispose();
+          return;
         }
+        scene = built;
+        // Draw now rather than waiting on the loop, which may be paused
+        // until the first scroll or intersection callback.
+        scene.render(current, performance.now() / 1000);
+        canvas.style.opacity = "1";
+        if (posterRef.current) posterRef.current.style.opacity = "0";
       })
+      // No WebGL: the text beats still run over the plain backdrop.
       .catch(() => {});
 
     readScroll();

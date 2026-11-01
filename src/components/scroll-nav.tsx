@@ -4,163 +4,158 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Kept to the draft site map. Everything Night and Leadership pages still
+// exist, they just no longer earn a slot in the bar.
 const links = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/events", label: "Events" },
-  { href: "/everything-night", label: "Everything Night" },
   { href: "/clubs", label: "Clubs" },
+  { href: "/events", label: "Gatherings" },
   { href: "/next-steps", label: "Next Steps" },
-  { href: "/leadership", label: "Leadership" },
   { href: "/churches", label: "Churches" },
   { href: "/contact", label: "Contact" },
 ];
 
 export function ScrollNav() {
   const pathname = usePathname();
-  const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    function onScroll() {
-      const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      const winHeight = window.innerHeight;
-      const nearBottom = scrollY + winHeight >= docHeight - 200;
-      setVisible(scrollY > 80 && !nearBottom);
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [open]);
+
   // Hide nav entirely on /admin and printable cutout sheets to keep the focus.
   if (pathname?.startsWith("/admin")) return null;
   if (pathname?.startsWith("/club-cutouts/print")) return null;
 
+  const isActive = (href: string) => pathname?.startsWith(href);
+
   return (
-    <nav
-      aria-label="Main"
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 border-b border-[var(--color-sky-100)]"
-      style={{
-        transform: visible || open ? "translateY(0)" : "translateY(-110%)",
-        opacity: visible || open ? 1 : 0,
-        transition: "transform 0.35s ease, opacity 0.35s ease",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2 group"
-          aria-label="SGV Christian Club Collective"
-        >
-          <span className="relative w-10 h-10 grid place-items-center">
+    <nav aria-label="Main" className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={cn(
+          "relative z-10 border-b backdrop-blur-xl backdrop-saturate-[1.8] transition-colors duration-300",
+          open
+            ? "bg-white border-transparent"
+            : "bg-[rgba(251,251,253,0.78)] border-black/[0.06]",
+        )}
+      >
+        <div className="mx-auto flex h-12 max-w-[1024px] items-center justify-between px-4 sm:px-6">
+          <Link
+            href="/"
+            aria-label="SGV Christian Club Collective, home"
+            className="shrink-0 opacity-90 transition-opacity hover:opacity-100"
+          >
             <Image
               src="/images/sgv-logo.png"
-              alt="SGV Christian Club Collective logo"
-              width={40}
-              height={40}
-              className="w-10 h-10 object-contain"
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 object-contain"
               priority
             />
-            <span className="absolute -inset-1 rounded-xl ring-1 ring-[var(--color-baby)] opacity-0 group-hover:opacity-100 transition" />
-          </span>
-          <span className="hidden sm:block">
-            <span className="block text-sm font-semibold text-[var(--color-navy)] leading-tight">
-              Christian Club Collective
-            </span>
-            <span className="block text-[11px] text-[var(--color-sky-600)] leading-tight">
-              San Gabriel Valley
-            </span>
-          </span>
-        </Link>
-
-        <div className="hidden lg:flex items-center gap-1">
-          {links.map((l) => {
-            const active =
-              pathname === l.href ||
-              (l.href !== "/" && pathname?.startsWith(l.href));
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={cn(
-                  "px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
-                  active
-                    ? "text-[var(--color-navy)] bg-[var(--color-sky-50)]"
-                    : "text-[var(--color-sky-700)] hover:text-[var(--color-navy)] hover:bg-[var(--color-sky-50)]",
-                )}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Link
-            href="/clubs"
-            className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-[var(--color-navy)] text-white hover:bg-[var(--color-navy-soft)] transition-all duration-200 cursor-pointer shadow-md shadow-[var(--color-navy)]/20"
-          >
-            Find your club
           </Link>
-          <button
-            type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="lg:hidden p-2 rounded-lg text-[var(--color-navy)] hover:bg-[var(--color-sky-50)] transition cursor-pointer"
-          >
-            {open ? (
-              <X className="w-5 h-5" aria-hidden="true" />
-            ) : (
-              <Menu className="w-5 h-5" aria-hidden="true" />
-            )}
-          </button>
+
+          <ul className="hidden items-center gap-9 md:flex">
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  className={cn(
+                    "text-xs tracking-[-0.01em] transition-colors duration-200",
+                    isActive(l.href)
+                      ? "text-[#1d1d1f]"
+                      : "text-[#1d1d1f]/70 hover:text-[#1d1d1f]",
+                  )}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/clubs"
+              className="hidden rounded-full bg-[var(--color-navy)] px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-[var(--color-navy-soft)] sm:inline-flex"
+            >
+              Find your club
+            </Link>
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="relative -mr-2 grid h-10 w-10 cursor-pointer place-items-center md:hidden"
+            >
+              <span
+                className={cn(
+                  "absolute h-px w-4 bg-[#1d1d1f] transition-transform duration-300",
+                  open ? "rotate-45" : "-translate-y-[3px]",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute h-px w-4 bg-[#1d1d1f] transition-transform duration-300",
+                  open ? "-rotate-45" : "translate-y-[3px]",
+                )}
+              />
+            </button>
+          </div>
         </div>
       </div>
 
       <div
         className={cn(
-          "lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out border-t border-[var(--color-sky-100)]",
-          open ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0",
+          "fixed inset-0 top-12 bg-white transition-opacity duration-300 md:hidden",
+          open ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <div className="px-4 sm:px-6 py-3 grid grid-cols-2 gap-1.5 bg-white">
-          {links.map((l) => {
-            const active =
-              pathname === l.href ||
-              (l.href !== "/" && pathname?.startsWith(l.href));
-            return (
+        <ul className="px-8 pt-6">
+          {links.map((l, i) => (
+            <li
+              key={l.href}
+              className={cn(
+                "transition-all duration-500 ease-out",
+                open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
+              )}
+              style={{ transitionDelay: open ? `${60 + i * 35}ms` : "0ms" }}
+            >
               <Link
-                key={l.href}
                 href={l.href}
-                className={cn(
-                  "px-3 py-2.5 rounded-lg text-sm font-medium transition",
-                  active
-                    ? "bg-[var(--color-navy)] text-white"
-                    : "text-[var(--color-sky-700)] bg-[var(--color-sky-50)] hover:bg-[var(--color-sky-100)]",
-                )}
+                tabIndex={open ? 0 : -1}
+                className="block py-2 font-display text-[28px] font-semibold tracking-[-0.02em] text-[#1d1d1f]"
               >
                 {l.label}
               </Link>
-            );
-          })}
-          <Link
-            href="/clubs"
-            className="col-span-2 mt-1 px-3 py-2.5 rounded-lg text-sm font-semibold bg-[var(--color-baby)] text-[var(--color-navy)] text-center"
+            </li>
+          ))}
+          <li
+            className={cn(
+              "pt-6 transition-all duration-500 ease-out",
+              open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
+            )}
+            style={{ transitionDelay: open ? "290ms" : "0ms" }}
           >
-            Find your club
-          </Link>
-        </div>
+            <Link
+              href="/clubs"
+              tabIndex={open ? 0 : -1}
+              className="inline-flex rounded-full bg-[var(--color-navy)] px-5 py-2.5 text-sm font-medium text-white"
+            >
+              Find your club
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );
