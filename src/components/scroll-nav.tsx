@@ -43,10 +43,12 @@ export function ScrollNav() {
     <nav aria-label="Main" className="fixed inset-x-0 top-0 z-50">
       <div
         className={cn(
-          "relative z-10 border-b backdrop-blur-xl backdrop-saturate-[1.8] transition-colors duration-300",
+          // No backdrop blur: over the live 3D hero it forces the browser to
+          // re-blur the bar every frame, which measurably dropped frames.
+          "relative z-10 border-b transition-colors duration-300",
           open
             ? "bg-white border-transparent"
-            : "bg-[rgba(251,251,253,0.78)] border-black/[0.06]",
+            : "bg-[rgba(251,251,253,0.94)] border-black/[0.06]",
         )}
       >
         <div className="mx-auto flex h-12 max-w-[1024px] items-center justify-between px-4 sm:px-6">

@@ -58,18 +58,34 @@ export function terrainMaterial(octaves: number) {
   mat.defines = { VC_OCTAVES: octaves };
   mat.onBeforeCompile = (shader) => {
     withPos(shader);
+    // Broad patterns vary slower than the vertex grid, so they are computed
+    // per vertex and interpolated: ~77k evaluations instead of millions.
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        "#include <common>",
+        `#include <common>\nvarying float vcMacroV;\nvarying float vcDryV;\n${NOISE}`,
+      )
+      .replace(
+        "#include <begin_vertex>",
+        /* glsl */ `#include <begin_vertex>
+vcMacroV = vcFbm(position.xz * 18.0);
+vcDryV = smoothstep(0.55, 0.75, vcFbm(position.xz * 7.0 + 3.0));`,
+      );
     shader.fragmentShader = shader.fragmentShader
+      .replace(
+        "#include <common>",
+        "#include <common>\nvarying float vcMacroV;\nvarying float vcDryV;",
+      )
       .replace(
         "#include <color_fragment>",
         /* glsl */ `#include <color_fragment>
 float vcSlope = 1.0 - normalize(vcNormal).y;
-float vcMacro = vcFbm(vcPos.xz * 18.0);
+float vcMacro = vcMacroV;
 float vcMicro = vcNoise(vcPos.xz * 220.0);
 float vcFade = 1.0 - smoothstep(1.5, 7.0, length(vViewPosition));
 vec3 vcGrass = diffuseColor.rgb * (0.78 + 0.42 * vcMacro);
 vcGrass *= mix(1.0, 0.86 + 0.28 * vcMicro, vcFade);
-float vcDry = smoothstep(0.55, 0.75, vcFbm(vcPos.xz * 7.0 + 3.0));
-vcGrass = mix(vcGrass, vcGrass * vec3(1.12, 1.06, 0.8), vcDry * 0.3);
+vcGrass = mix(vcGrass, vcGrass * vec3(1.12, 1.06, 0.8), vcDryV * 0.3);
 float vcStrata = 0.5 + 0.5 * sin(vcPos.y * 260.0 + vcMacro * 8.0);
 vec3 vcRock = vec3(0.34, 0.31, 0.26) * (0.75 + 0.35 * vcStrata) * (0.85 + 0.3 * vcMicro);
 float vcRockMix = smoothstep(0.45, 0.68, vcSlope + (vcMacro - 0.5) * 0.2) * 0.85;
@@ -79,8 +95,10 @@ diffuseColor.rgb = mix(vcGrass, vcRock, vcRockMix);`,
         "#include <normal_fragment_maps>",
         /* glsl */ `#include <normal_fragment_maps>
 {
-  float h = (vcFbm(vcPos.xz * 90.0) * 0.6 + vcNoise(vcPos.xz * 260.0) * 0.4)
-    * 0.0025 * (1.0 + vcRockMix) * vcFade;
+  // Two fresh noise taps plus the micro tap already in hand. No branch on
+  // vcFade: derivatives are undefined inside non-uniform control flow.
+  float h = (vcNoise(vcPos.xz * 90.0) * 0.5 + vcNoise(vcPos.xz * 185.0) * 0.25
+    + vcMicro * 0.25) * 0.0025 * (1.0 + vcRockMix) * vcFade;
   vec2 dH = vec2(dFdx(h), dFdy(h));
   vec3 sx = dFdx(-vViewPosition);
   vec3 sy = dFdy(-vViewPosition);

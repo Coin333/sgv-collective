@@ -55,17 +55,31 @@ export async function createValleyCross(
 ): Promise<ValleyCross> {
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: true,
+    // On retina screens the extra pixels already smooth edges, and MSAA at
+    // 2x density is the single most expensive thing in the frame.
+    antialias: window.devicePixelRatio < 1.5,
     alpha: true,
     powerPreference: "high-performance",
   });
   // Phones pay for every pixel: cap density, shadow size and noise octaves.
   const wide = window.innerWidth >= 1024;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, wide ? 2 : 1.5));
+  // The close-up fills the screen with shaded terrain, so it is drawn at a
+  // lower density (measured 14ms -> 6ms per frame at 1.5x on a retina Mac).
+  // It is all organic texture and the headline is HTML, so nothing visibly
+  // softens. Full density returns once the cross pulls back and its edges
+  // matter, which is also when the frame gets cheap.
+  let cap = Math.min(window.devicePixelRatio, wide ? 2 : 1.5);
+  let zoomedOut = false;
+  let pixelRatio = Math.min(cap, wide ? 1.5 : 1.25);
+  renderer.setPixelRatio(pixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // The sun is parented to the cross, so the shadow map never changes in
+  // light space. Draw it once and only refresh the matrices that place it.
+  renderer.shadowMap.autoUpdate = false;
+  renderer.shadowMap.needsUpdate = true;
 
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xf2f3f5, 2, 10);
@@ -128,6 +142,10 @@ export async function createValleyCross(
     river.material,
   );
   water.position.y = WATER;
+  // Drawn after the terrain so hidden water pixels fail the depth test before
+  // its shader runs. Most of the water plane sits under the hills.
+  terrain.renderOrder = 1;
+  water.renderOrder = 2;
   water.receiveShadow = true;
   world.add(water);
 
@@ -201,8 +219,36 @@ export async function createValleyCross(
 
   const fog = scene.fog as THREE.Fog;
 
+  function setRatio(next: number) {
+    if (next === pixelRatio) return;
+    pixelRatio = next;
+    renderer.setPixelRatio(next);
+    resize();
+  }
+
+  // Lower the density cap a step at a time if the GPU can't hold ~50fps.
+  // It never climbs back, so it can't oscillate.
+  let lastFrame = 0;
+  let slowFrames = 0;
+  function adapt(time: number, t: number) {
+    const dt = time - lastFrame;
+    lastFrame = time;
+    if (dt > 0 && dt < 0.25) {
+      slowFrames = dt > 0.02 ? slowFrames + 1 : Math.max(0, slowFrames - 2);
+      if (slowFrames > 45 && cap > 1) {
+        cap = Math.max(1, cap - 0.25);
+        slowFrames = 0;
+      }
+    }
+    // Hysteresis so a scroll hovering near the threshold doesn't flip-flop.
+    if (t > 0.32) zoomedOut = true;
+    else if (t < 0.24) zoomedOut = false;
+    setRatio(zoomedOut ? cap : Math.min(cap, wide ? 1.5 : 1.25));
+  }
+
   function render(progress: number, time: number) {
     const t = smooth(0.1, 0.8, progress);
+    adapt(time, t);
     posCurve.getPoint(t, pos);
     targetCurve.getPoint(t, target);
 
@@ -222,6 +268,8 @@ export async function createValleyCross(
     fog.near = dist * 1.2;
     fog.far = dist * 4.5;
 
+    world.updateMatrixWorld();
+    sun.shadow.updateMatrices(sun);
     renderer.render(scene, camera);
   }
 
