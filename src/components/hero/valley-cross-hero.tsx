@@ -124,7 +124,7 @@ export function ValleyCrossHero() {
       .then(async ([{ createValleyCross }, data]) => {
         worker?.terminate();
         if (cancelled) return;
-        const built = await createValleyCross(canvas, data, wide ? 4 : 3);
+        const built = await createValleyCross(canvas, data);
         if (cancelled) {
           built.dispose();
           return;

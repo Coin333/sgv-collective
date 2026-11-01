@@ -1,9 +1,4 @@
 import * as THREE from "three";
-import {
-  terrainMaterial,
-  treeMaterial,
-  waterMaterial,
-} from "./valley-cross-materials";
 
 import {
   BAR,
@@ -51,7 +46,6 @@ export type ValleyCross = {
 export async function createValleyCross(
   canvas: HTMLCanvasElement,
   data: TerrainData,
-  octaves: number,
 ): Promise<ValleyCross> {
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -61,11 +55,11 @@ export async function createValleyCross(
     alpha: true,
     powerPreference: "high-performance",
   });
-  // Phones pay for every pixel: cap density, shadow size and noise octaves.
+  // Phones pay for every pixel: cap density and shadow size.
   const wide = window.innerWidth >= 1024;
   // The close-up fills the screen with shaded terrain, so it is drawn at a
-  // lower density (measured 14ms -> 6ms per frame at 1.5x on a retina Mac).
-  // It is all organic texture and the headline is HTML, so nothing visibly
+  // lower density (measured roughly halving frame time at 1.5x on a retina Mac).
+  // It is all organic terrain and the headline is HTML, so nothing visibly
   // softens. Full density returns once the cross pulls back and its edges
   // matter, which is also when the frame gets cheap.
   let cap = Math.min(window.devicePixelRatio, wide ? 2 : 1.5);
@@ -112,7 +106,10 @@ export async function createValleyCross(
   terrainGeo.setAttribute("normal", new THREE.BufferAttribute(data.normals, 3));
   terrainGeo.setAttribute("color", new THREE.BufferAttribute(data.colors, 3));
   terrainGeo.setIndex(new THREE.BufferAttribute(data.index, 1));
-  const terrain = new THREE.Mesh(terrainGeo, terrainMaterial(octaves));
+  const terrain = new THREE.Mesh(
+    terrainGeo,
+    new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 }),
+  );
   terrain.castShadow = true;
   terrain.receiveShadow = true;
   world.add(terrain);
@@ -121,7 +118,7 @@ export async function createValleyCross(
   coneGeo.translate(0, TREE_HEIGHT / 2, 0);
   const trees = new THREE.InstancedMesh(
     coneGeo,
-    treeMaterial(TREE_HEIGHT),
+    new THREE.MeshStandardMaterial({ roughness: 0.9 }),
     data.treeCount,
   );
   trees.instanceMatrix.array.set(
@@ -136,10 +133,10 @@ export async function createValleyCross(
   world.add(trees);
 
   const shape = crossShape();
-  const river = waterMaterial(octaves);
   const water = new THREE.Mesh(
     new THREE.ShapeGeometry(shape).rotateX(-Math.PI / 2),
-    river.material,
+    // Lambert on purpose: any specular washes the river out to a grey stripe.
+    new THREE.MeshLambertMaterial({ color: "#2a6f9e" }),
   );
   water.position.y = WATER;
   // Drawn after the terrain so hidden water pixels fail the depth test before
@@ -260,7 +257,6 @@ export async function createValleyCross(
     world.rotation.x = UPRIGHT * smooth(0.55, 1, t);
     world.rotation.y = Math.sin(time * 0.35) * 0.16 * smooth(0.85, 1, t);
 
-    river.uniforms.uTime.value = time;
     camera.position.copy(pos);
     camera.lookAt(target);
 
