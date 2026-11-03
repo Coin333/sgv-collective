@@ -1,15 +1,35 @@
 import { Suspense } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ContactForm } from "./contact-form";
-import { Mail, Sparkles } from "lucide-react";
-import { InstagramIcon } from "@/components/icons/instagram";
 
 export const metadata = {
   title: "Contact",
   description:
     "Join a club, start a club, or get in touch with the SGV Christian Club Collective.",
 };
+
+const ways = [
+  {
+    label: "Email",
+    value: "sgvchristianclubs@gmail.com",
+    href: "mailto:sgvchristianclubs@gmail.com",
+    note: "Read by the current leads. A few days to reply.",
+  },
+  {
+    label: "Instagram",
+    value: "@sgv_christiancc",
+    href: "https://instagram.com/sgv_christiancc",
+    note: "Upcoming gatherings and recap photos.",
+  },
+  {
+    label: "Everything Night",
+    value: "RSVP on Partiful",
+    href: "https://partiful.com/e/gy3BajXzxlnGA6VuPei2?c=Pgd2dAsW",
+    note: "So we know how much food to make.",
+  },
+];
 
 export default function ContactPage() {
   return (
@@ -21,69 +41,39 @@ export default function ContactPage() {
       />
 
       <Section tone="white">
-        <div className="grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7">
             <Suspense fallback={<div className="h-96" />}>
               <ContactForm />
             </Suspense>
           </div>
 
-          <aside className="space-y-5">
-            <div className="rounded-2xl bg-[var(--color-cream)] border border-[var(--color-sky-100)] p-6">
-              <div className="w-10 h-10 rounded-xl bg-white grid place-items-center text-[var(--color-navy)]">
-                <Mail className="w-4 h-4" aria-hidden="true" />
-              </div>
-              <h3 className="mt-4 text-base font-semibold text-[var(--color-navy)]">
-                Email us
-              </h3>
-              <a
-                href="mailto:sgvchristianclubs@gmail.com"
-                className="mt-1 inline-block text-sm text-[var(--color-sky-700)] fancy-link hover:text-[var(--color-navy)]"
-              >
-                sgvchristianclubs@gmail.com
-              </a>
-            </div>
-
-            <div className="rounded-2xl bg-[var(--color-navy)] text-white p-6">
-              <div className="w-10 h-10 rounded-xl bg-white/10 grid place-items-center text-[var(--color-baby)]">
-                <Sparkles className="w-4 h-4" aria-hidden="true" />
-              </div>
-              <h3 className="mt-4 text-base font-semibold">
-                Coming to Everything Night?
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-sky-200)]">
-                RSVP on Partiful so we know how much food to make.
-              </p>
-              <a
-                href="https://partiful.com/e/gy3BajXzxlnGA6VuPei2?c=Pgd2dAsW"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--color-baby)] text-[var(--color-navy)] hover:bg-white transition cursor-pointer"
-              >
-                Partiful RSVP
-              </a>
-            </div>
-
-            <div className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-6">
-              <div className="w-10 h-10 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)]">
-                <InstagramIcon className="w-4 h-4" />
-              </div>
-              <h3 className="mt-4 text-base font-semibold text-[var(--color-navy)]">
-                Follow along
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-sky-700)]">
-                We post upcoming events and recap photos on Instagram.
-              </p>
-              <a
-                href="https://instagram.com/sgv_christiancc"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--color-navy)] text-white hover:bg-[var(--color-baby)] hover:text-[var(--color-navy)] transition cursor-pointer"
-              >
-                <InstagramIcon className="w-3.5 h-3.5" />
-                @sgv_christiancc
-              </a>
-            </div>
+          <aside className="lg:col-span-4 lg:col-start-9">
+            <ul>
+              {ways.map((w) => (
+                <li
+                  key={w.label}
+                  className="border-t border-[#1d1d1f]/10 py-6 last:border-b"
+                >
+                  <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6e6e73] sm:text-xs">
+                    {w.label}
+                  </p>
+                  <a
+                    href={w.href}
+                    target={w.href.startsWith("http") ? "_blank" : undefined}
+                    rel={w.href.startsWith("http") ? "noreferrer" : undefined}
+                    className="group mt-2 inline-flex items-center gap-1.5 text-base font-medium text-[#1d1d1f] md:text-lg"
+                  >
+                    {w.value}
+                    <ArrowUpRight
+                      className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                  <p className="mt-1 text-sm text-[#6e6e73]">{w.note}</p>
+                </li>
+              ))}
+            </ul>
           </aside>
         </div>
       </Section>

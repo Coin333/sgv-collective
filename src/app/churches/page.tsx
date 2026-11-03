@@ -1,14 +1,15 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { EditorialList } from "@/components/editorial-list";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { CTAButton } from "@/components/buttons";
 import {
   churches,
   pastoralGuidance,
   affiliates,
   supportTypes,
 } from "@/lib/data/churches";
-import { ArrowRight, Church, Compass, Users2 } from "lucide-react";
 
 export const metadata = {
   title: "Churches",
@@ -26,44 +27,18 @@ export default function ChurchesPage() {
       />
 
       <Section eyebrow="Partner churches" title="The churches walking with us.">
-        <div className="grid md:grid-cols-2 gap-5">
-          {churches.map((c, i) => (
-            <ScrollReveal key={c.name} delay={i * 70}>
-              <article className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-6 h-full hover:border-[var(--color-baby)] transition">
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)] shrink-0">
-                    <Church className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-[var(--color-navy)]">
-                      {c.name}
-                    </h3>
-                    {c.pastor && (
-                      <p className="mt-1 text-sm font-medium text-[var(--color-baby)]">
-                        {c.pastor}
-                      </p>
-                    )}
-                    {c.pastors && (
-                      <ul className="mt-1 space-y-0.5">
-                        {c.pastors.map((p) => (
-                          <li
-                            key={p}
-                            className="text-sm font-medium text-[var(--color-baby)]"
-                          >
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                      {c.support}
-                    </p>
-                  </div>
-                </div>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
+        <EditorialList
+          items={churches.map((c) => ({
+            title: c.name,
+            meta: [c.pastor ?? c.pastors?.join(", "), c.city]
+              .filter(Boolean)
+              .join(", "),
+            body: c.blurb ?? c.support,
+            link: c.url
+              ? { href: c.url, label: "Visit church", external: true }
+              : undefined,
+          }))}
+        />
       </Section>
 
       <Section
@@ -72,30 +47,13 @@ export default function ChurchesPage() {
         title="Shepherding the collective."
         description="Pastors who guide our student leaders and keep us rooted in the gospel."
       >
-        <div className="grid md:grid-cols-2 gap-5">
-          {pastoralGuidance.map((p, i) => (
-            <ScrollReveal key={p.name} delay={i * 80}>
-              <article className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-6 h-full">
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-[var(--color-baby)]/15 grid place-items-center text-[var(--color-baby)] shrink-0">
-                    <Compass className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-[var(--color-navy)]">
-                      {p.pastor}
-                    </h3>
-                    <p className="mt-1 text-sm font-medium text-[var(--color-sky-600)]">
-                      {p.church}
-                    </p>
-                    <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                      {p.role}
-                    </p>
-                  </div>
-                </div>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
+        <EditorialList
+          items={pastoralGuidance.map((p) => ({
+            title: p.pastor,
+            meta: p.church,
+            body: p.role,
+          }))}
+        />
       </Section>
 
       <Section
@@ -103,81 +61,72 @@ export default function ChurchesPage() {
         title="Ministries alongside us."
         description="Outreach partners who are not churches but stand with the collective."
       >
-        <div className="grid md:grid-cols-2 gap-5">
-          {affiliates.map((a, i) => (
-            <ScrollReveal key={a.name} delay={i * 80}>
-              <article className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-6 h-full">
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)] shrink-0">
-                    <Users2 className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-[var(--color-navy)]">
-                      {a.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                      {a.description}
-                    </p>
-                  </div>
-                </div>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
+        <EditorialList
+          items={affiliates.map((a) => ({
+            title: a.name,
+            body: a.blurb ?? a.description,
+            link: a.url
+              ? { href: a.url, label: "Visit site", external: true }
+              : undefined,
+          }))}
+        />
       </Section>
 
-      <Section
-        tone="white"
-        eyebrow="How they help"
-        title="Four ways churches support us."
-      >
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <Section eyebrow="How they help" title="Four ways churches support us.">
+        <ol className="grid gap-x-8 border-t border-[#1d1d1f]/10 md:grid-cols-2 lg:grid-cols-4">
           {supportTypes.map((s, i) => (
-            <ScrollReveal key={s.title} delay={i * 80}>
-              <article className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-6 h-full hover:border-[var(--color-baby)] transition">
-                <div className="w-11 h-11 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)]">
-                  <Church className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-[var(--color-navy)]">
+            <ScrollReveal
+              key={s.title}
+              delay={i * 70}
+              className="border-b border-[#1d1d1f]/10 py-8 lg:border-b-0"
+            >
+              <li>
+                <p className="font-display text-sm font-medium tabular-nums text-[#6e6e73]">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-6 font-display text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
+                <p className="mt-3 text-base leading-relaxed text-[#6e6e73]">
                   {s.description}
                 </p>
-              </article>
+              </li>
             </ScrollReveal>
           ))}
-        </div>
+        </ol>
       </Section>
 
       <Section
-        tone="cream"
+        tone="navy"
         eyebrow="Want in?"
         title="Pastors, leaders, churches."
       >
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-7">
-            <h3 className="text-lg font-semibold text-[var(--color-navy)]">
-              Partner with us
+        <div className="grid gap-12 border-t border-white/15 pt-10 md:grid-cols-2 md:gap-8">
+          <ScrollReveal>
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+              Partner with us.
             </h3>
-            <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-              We would love to talk about hosting a worship night, sending a
-              speaker, or sponsoring food for Everything Night.
+            <p className="mt-3 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
+              Host a worship night, send a speaker, or sponsor food for
+              Everything Night. We would love to talk.
             </p>
-            <div className="mt-5">
-              <CTAButton href="/contact?type=church" variant="primary">
-                Reach out
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </CTAButton>
-            </div>
-          </div>
-          <div className="rounded-2xl bg-[var(--color-navy)] text-white p-7">
-            <h3 className="text-lg font-semibold">Pray for the schools.</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--color-sky-200)]">
+            <Link
+              href="/contact?type=church"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-[#1d1d1f] transition-colors hover:bg-[#f5f5f7]"
+            >
+              Reach out
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </ScrollReveal>
+          <ScrollReveal delay={90}>
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+              Pray for the schools.
+            </h3>
+            <p className="mt-3 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
               Whether or not you partner officially, prayer for these campuses
               changes things. Pray for our friends who have not met Jesus yet.
             </p>
-          </div>
+          </ScrollReveal>
         </div>
       </Section>
     </>

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { submitContact, type ContactState } from "./actions";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +15,9 @@ const interests = [
   { value: "church", label: "Church partnership" },
   { value: "general", label: "Just say hi" },
 ];
+
+const fieldCls =
+  "w-full rounded-xl border bg-white px-4 py-3 text-base text-[#1d1d1f] placeholder:text-[#6e6e73]/70 transition-colors focus:border-[#1d1d1f] focus:outline-none";
 
 export function ContactForm() {
   const sp = useSearchParams();
@@ -40,14 +43,11 @@ export function ContactForm() {
 
   if (state.ok) {
     return (
-      <div className="rounded-2xl border border-[var(--color-baby)] bg-[var(--color-sky-50)] p-8 text-center">
-        <div className="w-12 h-12 mx-auto rounded-2xl bg-[var(--color-baby)] grid place-items-center text-[var(--color-navy)]">
-          <CheckCircle2 className="w-6 h-6" aria-hidden="true" />
-        </div>
-        <h3 className="mt-5 text-xl font-semibold text-[var(--color-navy)]">
+      <div className="rounded-[20px] bg-[#f5f5f7] p-8 md:p-10">
+        <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] md:text-3xl">
           Got it. Thanks for reaching out.
         </h3>
-        <p className="mt-2 text-sm text-[var(--color-sky-700)]">
+        <p className="mt-3 text-base text-[#6e6e73] md:text-lg">
           Someone from the team will get back to you within a few days.
         </p>
       </div>
@@ -55,8 +55,8 @@ export function ContactForm() {
   }
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="space-y-5">
-      <div className="grid sm:grid-cols-2 gap-4">
+    <form ref={formRef} action={formAction} noValidate className="space-y-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         <Field
           label="Name"
           name="name"
@@ -82,9 +82,9 @@ export function ContactForm() {
       />
 
       <div>
-        <label className="block text-sm font-medium text-[var(--color-navy)] mb-2">
+        <p className="mb-2 text-sm font-medium text-[#1d1d1f]">
           Reason for reaching out
-        </label>
+        </p>
         <input type="hidden" name="interest" value={interest} />
         <div className="flex flex-wrap gap-2">
           {interests.map((i) => (
@@ -94,10 +94,10 @@ export function ContactForm() {
               onClick={() => setInterest(i.value)}
               aria-pressed={interest === i.value}
               className={cn(
-                "px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer",
+                "cursor-pointer rounded-full border px-3.5 py-2 text-sm font-medium transition-colors duration-200",
                 interest === i.value
-                  ? "bg-[var(--color-navy)] text-white"
-                  : "bg-[var(--color-sky-50)] text-[var(--color-sky-700)] hover:bg-[var(--color-sky-100)]",
+                  ? "border-[#1d1d1f] bg-[#1d1d1f] text-white"
+                  : "border-[#1d1d1f]/15 bg-white text-[#1d1d1f] hover:border-[#1d1d1f]",
               )}
             >
               {i.label}
@@ -112,7 +112,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-[var(--color-navy)] mb-2"
+          className="mb-2 block text-sm font-medium text-[#1d1d1f]"
         >
           Message
         </label>
@@ -122,10 +122,9 @@ export function ContactForm() {
           rows={5}
           required
           className={cn(
-            "w-full bg-white border rounded-xl px-4 py-3 text-sm text-[var(--color-navy)] placeholder-[var(--color-sky-500)] focus:outline-none focus:ring-2 focus:ring-[var(--color-baby)] focus:border-transparent transition resize-y",
-            fe.message?.[0]
-              ? "border-rose-400"
-              : "border-[var(--color-sky-200)]",
+            fieldCls,
+            "resize-y",
+            fe.message?.[0] ? "border-rose-400" : "border-[#1d1d1f]/15",
           )}
           placeholder="Tell us a little about your school, your club, or what you are wondering."
         />
@@ -137,7 +136,7 @@ export function ContactForm() {
       {state.error && !state.ok && (
         <div
           role="alert"
-          className="rounded-xl bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700"
+          className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
         >
           {state.error}
         </div>
@@ -146,19 +145,12 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold bg-[var(--color-navy)] hover:bg-[var(--color-navy-soft)] text-white transition-all duration-200 cursor-pointer shadow-md shadow-[var(--color-navy)]/20 disabled:opacity-70 disabled:cursor-not-allowed"
+        className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#1d1d1f] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-            Sending
-          </>
-        ) : (
-          <>
-            <Send className="w-4 h-4" aria-hidden="true" />
-            Send message
-          </>
+        {pending && (
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
         )}
+        {pending ? "Sending" : "Send message"}
       </button>
     </form>
   );
@@ -183,10 +175,9 @@ function Field({
     <div>
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-[var(--color-navy)] mb-2"
+        className="mb-2 block text-sm font-medium text-[#1d1d1f]"
       >
         {label}
-        {required && <span className="text-[var(--color-baby)] ml-1">*</span>}
       </label>
       <input
         id={name}
@@ -196,8 +187,8 @@ function Field({
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}
         className={cn(
-          "w-full bg-white border rounded-xl px-4 py-3 text-sm text-[var(--color-navy)] placeholder-[var(--color-sky-500)] focus:outline-none focus:ring-2 focus:ring-[var(--color-baby)] focus:border-transparent transition",
-          error ? "border-rose-400" : "border-[var(--color-sky-200)]",
+          fieldCls,
+          error ? "border-rose-400" : "border-[#1d1d1f]/15",
         )}
       />
       {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}

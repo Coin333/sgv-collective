@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { EditorialList } from "@/components/editorial-list";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -40,32 +41,6 @@ const how = [
     body: "Once a year, every campus shows up to Everything Night. Through the year, worship nights hosted by partner churches.",
   },
 ];
-
-function EditorialList({
-  items,
-}: {
-  items: { title: string; body: string }[];
-}) {
-  return (
-    <div>
-      {items.map((c, i) => (
-        <ScrollReveal
-          key={c.title}
-          delay={i * 90}
-          className="grid gap-3 border-t border-[#1d1d1f]/10 py-8 md:grid-cols-[1fr_2fr] md:gap-8 md:py-10"
-        >
-          <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] md:text-3xl">
-            {c.title}
-          </h3>
-          <p className="text-base leading-relaxed text-[#6e6e73] md:text-lg">
-            {c.body}
-          </p>
-        </ScrollReveal>
-      ))}
-      <div className="border-t border-[#1d1d1f]/10" />
-    </div>
-  );
-}
 
 export default function AboutPage() {
   return (
