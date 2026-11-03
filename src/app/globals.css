@@ -100,6 +100,25 @@ html {
   animation: slow-drift 22s ease-in-out infinite;
 }
 
+/* Homepage club strip. The track holds two copies of the list, so moving
+   exactly half its width lands on the seam. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee 70s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;

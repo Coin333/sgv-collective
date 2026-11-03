@@ -53,7 +53,7 @@ export default function NextStepsPage() {
               <span className="w-6 h-px bg-[var(--color-baby)]" />
               Next Steps
             </p>
-            <h1 className="mt-5 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white text-balance leading-[1.05]">
+            <h1 className="mt-5 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white text-balance [line-height:1.05]">
               You said yes.{" "}
               <span className="text-[var(--color-baby)]">
                 Here is what comes next.

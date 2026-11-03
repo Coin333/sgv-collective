@@ -59,7 +59,7 @@ export function Section({
             {title && (
               <h2
                 className={cn(
-                  "mt-4 font-display font-semibold tracking-[-0.04em] leading-[1.02] text-balance text-[clamp(2.25rem,5.2vw,4.25rem)]",
+                  "mt-4 font-display font-semibold tracking-[-0.04em] [line-height:1.02] text-balance text-[clamp(2.25rem,5.2vw,4.25rem)]",
                   dark ? "text-white" : "text-[#1d1d1f]",
                 )}
               >

@@ -19,7 +19,7 @@ export function PageHeader({ eyebrow, title, description, photo }: Props) {
           <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6e6e73] sm:text-xs">
             {eyebrow}
           </p>
-          <h1 className="mt-5 max-w-[16ch] font-display font-semibold tracking-[-0.05em] leading-[0.96] text-[clamp(2.75rem,7.5vw,6.5rem)] text-[#1d1d1f]">
+          <h1 className="mt-5 max-w-[16ch] font-display font-semibold tracking-[-0.05em] [line-height:0.96] text-[clamp(2.75rem,7.5vw,6.5rem)] text-[#1d1d1f]">
             {title}
           </h1>
         </ScrollReveal>

@@ -45,7 +45,7 @@ export default function LegacyPage() {
             </p>
             <h1
               className={cn(
-                "mt-5 max-w-[16ch] font-display font-semibold tracking-[-0.05em] leading-[0.96] text-[clamp(2.75rem,7.5vw,6.5rem)]",
+                "mt-5 max-w-[16ch] font-display font-semibold tracking-[-0.05em] [line-height:0.96] text-[clamp(2.75rem,7.5vw,6.5rem)]",
                 ink,
               )}
             >

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ClubMarquee } from "@/components/club-marquee";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Yearbook } from "@/components/yearbook";
 import { clubs } from "@/lib/data/clubs";
@@ -10,7 +11,7 @@ import { cn } from "@/lib/utils";
 const ink = "text-[#1d1d1f]";
 const muted = "text-[#6e6e73]";
 const h2 =
-  "font-display font-semibold tracking-[-0.04em] leading-[1.02] text-balance text-[clamp(2.25rem,5.2vw,4.25rem)]";
+  "font-display font-semibold tracking-[-0.04em] [line-height:1.02] text-balance text-[clamp(2.25rem,5.2vw,4.25rem)]";
 
 function Eyebrow({ children, dark }: { children: string; dark?: boolean }) {
   return (
@@ -93,73 +94,74 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero: one sentence, one photograph. */}
-      <section className="bg-white pt-28 md:pt-40">
-        <div className="mx-auto max-w-[1180px] px-5 sm:px-8">
-          <ScrollReveal>
-            <Eyebrow>San Gabriel Valley Christian Club Collective</Eyebrow>
-          </ScrollReveal>
-          <ScrollReveal delay={60}>
-            <h1
-              className={cn(
-                "mt-5 max-w-[14ch] font-display font-semibold tracking-[-0.05em] leading-[0.94] text-[clamp(3rem,9vw,8.25rem)]",
-                ink,
-              )}
-            >
-              No Christian student walks alone.
-            </h1>
-          </ScrollReveal>
-          <ScrollReveal
-            delay={140}
-            className="mt-10 flex flex-col gap-8 md:mt-14 md:flex-row md:items-end md:justify-between"
-          >
-            <p
-              className={cn(
-                "max-w-md text-lg leading-relaxed md:text-xl",
-                muted,
-              )}
-            >
-              A network of student-led Christian clubs across twenty high
-              schools in the San Gabriel Valley. Started by students in 2024.
-              Handed to new students every June.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link
-                href="/clubs"
-                className="inline-flex items-center gap-2 rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-black"
+      {/* Hero: one sentence beside one photograph, then every campus in a line. */}
+      <section className="bg-white pt-24 md:pt-32">
+        <div className="mx-auto grid max-w-[1180px] gap-12 px-5 sm:px-8 md:grid-cols-12 md:items-end md:gap-8">
+          <div className="md:col-span-7">
+            <ScrollReveal>
+              <Eyebrow>San Gabriel Valley Christian Club Collective</Eyebrow>
+            </ScrollReveal>
+            <ScrollReveal delay={60}>
+              <h1
+                className={cn(
+                  "mt-5 max-w-[11ch] font-display font-semibold tracking-[-0.05em] [line-height:0.92] text-[clamp(3rem,8vw,7.25rem)]",
+                  ink,
+                )}
               >
-                Find your club
-              </Link>
-              <TextLink href="/legacy">Our story</TextLink>
-            </div>
+                No Christian student walks{" "}
+                <span className="text-[#1d1d1f]/35">alone.</span>
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal delay={140} className="mt-10 md:mt-14">
+              <p
+                className={cn(
+                  "max-w-md text-lg leading-relaxed md:text-xl",
+                  muted,
+                )}
+              >
+                A network of student-led Christian clubs across twenty high
+                schools in the San Gabriel Valley. Started by students in 2024.
+                Handed to new students every June.
+              </p>
+              <div className="mt-8 flex items-center gap-6">
+                <Link
+                  href="/clubs"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-black"
+                >
+                  Find your club
+                </Link>
+                <TextLink href="/legacy">Our story</TextLink>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          <ScrollReveal delay={200} className="md:col-span-5">
+            <figure>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-[#f5f5f7] md:rounded-[28px]">
+                <Image
+                  src="/images/everything-night-main.jpg"
+                  alt="Over a hundred students on stage at Everything Night, a wooden cross held up on the right"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 480px"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption
+                className={cn(
+                  "mt-4 flex flex-wrap justify-between gap-x-6 gap-y-1 text-xs sm:text-sm",
+                  muted,
+                )}
+              >
+                <span>Everything Night, Pasadena High School</span>
+                <span>May 24, 2026</span>
+              </figcaption>
+            </figure>
           </ScrollReveal>
         </div>
 
-        <ScrollReveal
-          delay={200}
-          className="mx-auto mt-16 max-w-[1180px] px-5 sm:px-8 md:mt-24"
-        >
-          <figure>
-            <div className="relative aspect-[3/2] overflow-hidden rounded-[20px] bg-[#f5f5f7] md:rounded-[28px]">
-              <Image
-                src="/images/everything-night-main.jpg"
-                alt="Over a hundred students on stage at Everything Night, a wooden cross held up on the right"
-                fill
-                priority
-                sizes="(max-width: 1180px) 100vw, 1180px"
-                className="object-cover"
-              />
-            </div>
-            <figcaption
-              className={cn(
-                "mt-4 flex flex-wrap justify-between gap-x-6 gap-y-1 text-xs sm:text-sm",
-                muted,
-              )}
-            >
-              <span>Everything Night, Pasadena High School</span>
-              <span>May 24, 2026</span>
-            </figcaption>
-          </figure>
+        <ScrollReveal delay={260} className="mt-16 md:mt-24">
+          <ClubMarquee />
         </ScrollReveal>
       </section>
 

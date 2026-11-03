@@ -74,7 +74,7 @@ export default function EverythingNightPage() {
             <span className="w-6 h-px bg-[var(--color-baby)]" />
             The Flagship Night
           </p>
-          <h1 className="mt-5 text-6xl sm:text-7xl md:text-9xl font-bold tracking-tight text-white text-balance leading-[0.95]">
+          <h1 className="mt-5 text-6xl sm:text-7xl md:text-9xl font-bold tracking-tight text-white text-balance [line-height:0.95]">
             Everything <span className="shimmer-text">Night.</span>
           </h1>
           <p className="mt-6 text-2xl md:text-4xl font-semibold text-[var(--color-baby)]">
