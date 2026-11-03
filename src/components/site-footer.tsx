@@ -19,6 +19,7 @@ const columns = [
   {
     title: "For clubs",
     links: [
+      { href: "/playbooks", label: "Playbooks" },
       { href: "/next-steps", label: "Next steps" },
       { href: "/club-cutouts", label: "Club Cutouts" },
       { href: "/churches", label: "Partner churches" },

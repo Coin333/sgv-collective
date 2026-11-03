@@ -44,9 +44,9 @@ export default async function AdminHomePage() {
     },
     {
       icon: Megaphone,
-      label: "Announcements",
-      value: "Coming soon",
-      href: "/admin",
+      label: "Handoff",
+      value: "How to keep this alive",
+      href: "/admin/handoff",
     },
   ];
 
@@ -99,8 +99,8 @@ export default async function AdminHomePage() {
           </li>
           <li>
             Edit static content (clubs, leadership) in{" "}
-            <code>src/lib/data/</code>. The DB tables are ready when you want
-            to migrate to a CMS.
+            <code>src/lib/data/</code>. The DB tables are ready when you want to
+            migrate to a CMS.
           </li>
         </ul>
       </div>

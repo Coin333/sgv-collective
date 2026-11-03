@@ -72,9 +72,9 @@ const convictions = [
 
 const offers = [
   {
-    title: "Leader training",
-    body: "Running a meeting, leading a study, inviting friends, keeping a club alive after you graduate.",
-    href: "/next-steps",
+    title: "Playbooks",
+    body: "Starting a club, running a meeting, hosting a worship night, handing it off when you graduate.",
+    href: "/playbooks",
   },
   {
     title: "Club Cutouts",

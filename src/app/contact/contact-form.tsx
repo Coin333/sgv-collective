@@ -11,6 +11,7 @@ const initial: ContactState = { ok: false };
 const interests = [
   { value: "join", label: "Join a club" },
   { value: "start", label: "Start a club" },
+  { value: "lead", label: "Lead next year" },
   { value: "rsvp-help", label: "Everything Night question" },
   { value: "church", label: "Church partnership" },
   { value: "general", label: "Just say hi" },

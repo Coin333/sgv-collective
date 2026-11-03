@@ -105,6 +105,12 @@ async function AdminShell({ children }: { children: React.ReactNode }) {
               Messages
             </Link>
             <Link
+              href="/admin/handoff"
+              className="px-3 py-2 rounded-lg text-[var(--color-sky-700)] hover:bg-[var(--color-sky-50)] hover:text-[var(--color-navy)] transition"
+            >
+              Handoff
+            </Link>
+            <Link
               href="/"
               className="ml-2 px-3 py-2 rounded-lg text-[var(--color-sky-700)] hover:bg-[var(--color-sky-50)] hover:text-[var(--color-navy)] transition"
             >
