@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description:
     "A network of Christian clubs across 20 San Gabriel Valley high schools. God's family with a purpose: serving campus clubs and building joyful community so no Christian student walks alone.",
-  metadataBase: new URL("https://sgvchristianclubs.org"),
+  metadataBase: new URL("https://sgvc.cc"),
   openGraph: {
     title: "SGV Christian Club Collective",
     description:

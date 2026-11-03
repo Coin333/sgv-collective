@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 // exist, they just no longer earn a slot in the bar.
 const links = [
   { href: "/about", label: "About" },
+  { href: "/legacy", label: "Story" },
   { href: "/clubs", label: "Clubs" },
   { href: "/events", label: "Gatherings" },
   { href: "/next-steps", label: "Next Steps" },
