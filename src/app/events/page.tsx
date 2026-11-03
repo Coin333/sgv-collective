@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { EventCard } from "@/components/event-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -23,33 +23,17 @@ export default function EventsPage() {
 
   return (
     <>
-      <section className="relative pt-32 pb-20 overflow-hidden bg-[var(--color-navy)] text-white">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/everything-night-band.jpg"
-            alt="Worship band on stage"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy)]/85 via-[var(--color-navy)]/75 to-[var(--color-navy)]/95" />
-          <div className="absolute inset-0 bg-dot-grid-dark opacity-30" />
-        </div>
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--color-baby)]">
-            Events
-          </p>
-          <h1 className="mt-4 text-5xl md:text-7xl font-bold tracking-tight text-white text-balance [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">
-            Show up.{" "}
-            <span className="text-[var(--color-baby)]">Bring a friend.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-white leading-relaxed [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
-            Big nights, small hangs, worship gatherings. There is always
-            something next.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Gatherings"
+        title="Show up. Bring a friend."
+        description="Everything Night once a year, worship nights through the year, and summer hangs. There is always something next."
+        photo={{
+          src: "/images/salt-and-light-worship-night.jpg",
+          alt: "A student leading worship with one hand raised at the Salt and Light worship night",
+          caption:
+            "Salt & Light Worship Night, Epicenter Church, December 19, 2025",
+        }}
+      />
 
       <Section eyebrow="Upcoming" title="Mark your calendar.">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

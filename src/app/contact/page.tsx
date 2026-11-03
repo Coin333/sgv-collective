@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Image from "next/image";
+import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ContactForm } from "./contact-form";
 import { Mail, Sparkles } from "lucide-react";
@@ -14,32 +14,11 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="relative pt-32 pb-20 overflow-hidden bg-[var(--color-navy)] text-white">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/everything-night-main.jpg"
-            alt="SGV Christian Club Collective"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy)]/85 via-[var(--color-navy)]/75 to-[var(--color-navy)]/95" />
-          <div className="absolute inset-0 bg-dot-grid-dark opacity-30" />
-        </div>
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--color-baby)]">
-            Contact
-          </p>
-          <h1 className="mt-4 text-5xl md:text-7xl font-bold tracking-tight text-white text-balance [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">
-            Say hi. Ask anything.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-white leading-relaxed [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
-            We read every message. Whether you want to join, start, or just ask
-            a question, drop a note.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Contact"
+        title="Say hi. Ask anything."
+        description="We read every message. Whether you want to join, start, lead, or just ask a question, drop a note."
+      />
 
       <Section tone="white">
         <div className="grid lg:grid-cols-3 gap-10">
