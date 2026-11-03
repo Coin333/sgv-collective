@@ -1,12 +1,6 @@
 import Image from "next/image";
-import {
-  ArrowRight,
-  BookOpen,
-  HandHeart,
-  Sparkles,
-  Users2,
-} from "lucide-react";
-import { CTAButton } from "@/components/buttons";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -16,6 +10,62 @@ export const metadata = {
   description:
     "Who the SGV Christian Club Collective is, what we believe, and how we work.",
 };
+
+const mission = [
+  {
+    title: "Anyone is welcome.",
+    body: "You do not need to believe what we believe to come hang out. Most of our friends are still figuring it out. That is the point.",
+  },
+  {
+    title: "Jesus is real.",
+    body: "We are here to help students meet Him. No pressure, no pretending, honest answers to real questions.",
+  },
+  {
+    title: "Rooted in scripture.",
+    body: "Bible study, real conversation, and a church to point you toward when you want more.",
+  },
+];
+
+const how = [
+  {
+    title: "Each campus runs itself.",
+    body: "Every club has its own student leaders, rhythm, and name. We never run a club. Federal law protects that, and so do we.",
+  },
+  {
+    title: "We connect them.",
+    body: "Dates, speakers, worship teams, printable resources, and introductions across twenty schools.",
+  },
+  {
+    title: "We gather everyone.",
+    body: "Once a year, every campus shows up to Everything Night. Through the year, worship nights hosted by partner churches.",
+  },
+];
+
+function EditorialList({
+  items,
+}: {
+  items: { title: string; body: string }[];
+}) {
+  return (
+    <div>
+      {items.map((c, i) => (
+        <ScrollReveal
+          key={c.title}
+          delay={i * 90}
+          className="grid gap-3 border-t border-[#1d1d1f]/10 py-8 md:grid-cols-[1fr_2fr] md:gap-8 md:py-10"
+        >
+          <h3 className="font-display text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] md:text-3xl">
+            {c.title}
+          </h3>
+          <p className="text-base leading-relaxed text-[#6e6e73] md:text-lg">
+            {c.body}
+          </p>
+        </ScrollReveal>
+      ))}
+      <div className="border-t border-[#1d1d1f]/10" />
+    </div>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -36,44 +86,7 @@ export default function AboutPage() {
         title="What we are about."
         description="Plain language. No jargon. Anyone is welcome at the table."
       >
-        <div className="grid md:grid-cols-2 gap-6">
-          {[
-            {
-              icon: HandHeart,
-              title: "Inclusivity",
-              body: "Anyone is welcome. You do not need to believe what we believe to come hang out.",
-            },
-            {
-              icon: Sparkles,
-              title: "Connection to Christ",
-              body: "We believe Jesus is real and we are here to help students meet Him.",
-            },
-            {
-              icon: BookOpen,
-              title: "Rooted in scripture",
-              body: "Bible study, real questions, and honest answers. No pressure to pretend.",
-            },
-            {
-              icon: Users2,
-              title: "Open to non-believers",
-              body: "Most of our friends are still figuring it out. That is exactly the point.",
-            },
-          ].map((f, i) => (
-            <ScrollReveal key={f.title} delay={i * 80}>
-              <article className="h-full rounded-2xl border border-[var(--color-sky-100)] bg-white p-7 hover:border-[var(--color-baby)] transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-[var(--color-sky-50)] grid place-items-center text-[var(--color-navy)]">
-                  <f.icon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <h3 className="mt-5 text-lg font-semibold text-[var(--color-navy)]">
-                  {f.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                  {f.body}
-                </p>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
+        <EditorialList items={mission} />
       </Section>
 
       <Section
@@ -81,66 +94,35 @@ export default function AboutPage() {
         eyebrow="How we work"
         title="Clubs lead. We connect."
       >
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              n: "01",
-              title: "Each campus runs itself",
-              body: "Every club has its own student leaders, vibe, and rhythm.",
-            },
-            {
-              n: "02",
-              title: "We link them up",
-              body: "We share dates, themes, speakers, and resources across schools.",
-            },
-            {
-              n: "03",
-              title: "We gather everyone",
-              body: "Once a year, every campus shows up to Everything Night. We also host worship nights together throughout the year.",
-            },
-          ].map((s, i) => (
-            <ScrollReveal key={s.n} delay={i * 80}>
-              <article className="rounded-2xl bg-white border border-[var(--color-sky-100)] p-7 h-full">
-                <span className="text-sm font-bold tracking-[0.2em] text-[var(--color-baby)]">
-                  {s.n}
-                </span>
-                <h3 className="mt-3 text-lg font-semibold text-[var(--color-navy)]">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-sky-700)] leading-relaxed">
-                  {s.body}
-                </p>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
+        <EditorialList items={how} />
       </Section>
 
-      <Section
-        tone="white"
-        eyebrow="History"
-        title="From a few clubs to a collective."
-      >
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <Section eyebrow="History" title="From a brainstorm to twenty schools.">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <ScrollReveal>
-            <p className="text-base md:text-lg text-[var(--color-sky-700)] leading-relaxed">
-              The collective started with a handful of leaders who wanted clubs
-              across the valley to actually know each other. It grew into twenty
-              schools, regional worship nights, and Everything Night.
+            <p className="text-base leading-relaxed text-[#6e6e73] md:text-lg">
+              The collective started on November 12, 2024 with a handful of
+              student leaders who wanted the clubs across the valley to actually
+              know each other. Six months later it was twenty schools, a worship
+              night, and the first Everything Night.
             </p>
-            <p className="mt-4 text-base md:text-lg text-[var(--color-sky-700)] leading-relaxed">
-              The mission has not changed. Welcome anyone. Point them to Jesus.
-              Keep it real.
+            <p className="mt-4 text-base leading-relaxed text-[#6e6e73] md:text-lg">
+              The founders graduated. The network kept going. The mission has
+              not changed: welcome anyone, point them to Jesus, keep it real.
             </p>
-            <div className="mt-8">
-              <CTAButton href="/leadership" variant="outline">
-                Meet the team
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </CTAButton>
-            </div>
+            <Link
+              href="/legacy"
+              className="group mt-8 inline-flex items-center gap-1.5 text-base font-medium text-[#1d1d1f]"
+            >
+              Every year so far
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           </ScrollReveal>
           <ScrollReveal delay={120}>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-[#f5f5f7]">
               <Image
                 src="/images/everything-night-poster.jpg"
                 alt="Everything for Everyone poster"
@@ -148,7 +130,6 @@ export default function AboutPage() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)]/30 via-transparent" />
             </div>
           </ScrollReveal>
         </div>

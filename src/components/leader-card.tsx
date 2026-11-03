@@ -1,87 +1,23 @@
 import type { Leader } from "@/lib/data/leadership";
-import { cn } from "@/lib/utils";
 
 export function LeaderCard({ leader }: { leader: Leader }) {
-  const initials = leader.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-  const isPast = leader.era === "past";
   return (
-    <article
-      className={cn(
-        "relative overflow-hidden rounded-2xl border p-6 transition-all duration-300",
-        isPast
-          ? "bg-white border-[var(--color-sky-100)] hover:border-[var(--color-baby)]"
-          : "bg-[var(--color-navy)] border-[var(--color-navy)] hover:border-[var(--color-baby)] text-white",
-      )}
-    >
-      <div
-        className={cn(
-          "w-16 h-16 rounded-2xl grid place-items-center text-xl font-bold",
-          isPast
-            ? "bg-[var(--color-sky-50)] text-[var(--color-navy)]"
-            : "bg-[var(--color-baby)] text-[var(--color-navy)]",
-        )}
-      >
-        {initials}
-      </div>
-      <h3
-        className={cn(
-          "mt-5 text-lg font-semibold",
-          isPast ? "text-[var(--color-navy)]" : "text-white",
-        )}
-      >
-        {leader.name}
-      </h3>
-      <p
-        className={cn(
-          "text-xs uppercase tracking-widest mt-1 font-medium",
-          isPast ? "text-[var(--color-sky-600)]" : "text-[var(--color-baby)]",
-        )}
-      >
+    <article className="flex h-full flex-col rounded-[20px] bg-[#f5f5f7] p-7 md:p-8">
+      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#6e6e73]">
         {leader.role}
       </p>
-      <p
-        className={cn(
-          "mt-3 text-sm leading-relaxed",
-          isPast
-            ? "text-[var(--color-sky-700)]"
-            : "text-[var(--color-sky-200)]",
-        )}
-      >
+      <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">
+        {leader.name}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-[#6e6e73]">
         {leader.blurb}
       </p>
       {leader.events && leader.events.length > 0 ? (
-        <div className="mt-5">
-          <p
-            className={cn(
-              "text-[10px] uppercase tracking-widest font-semibold",
-              isPast
-                ? "text-[var(--color-sky-500)]"
-                : "text-[var(--color-baby)]",
-            )}
-          >
-            Events
-          </p>
-          <ul className="mt-2 flex flex-wrap gap-1.5">
-            {leader.events.map((ev) => (
-              <li
-                key={ev}
-                className={cn(
-                  "text-xs px-2.5 py-1 rounded-full border",
-                  isPast
-                    ? "bg-[var(--color-sky-50)] border-[var(--color-sky-100)] text-[var(--color-navy)]"
-                    : "bg-white/10 border-white/15 text-white",
-                )}
-              >
-                {ev}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="mt-6 flex flex-wrap gap-x-3 gap-y-1 border-t border-[#1d1d1f]/10 pt-4 text-xs text-[#6e6e73]">
+          {leader.events.map((ev) => (
+            <li key={ev}>{ev}</li>
+          ))}
+        </ul>
       ) : null}
     </article>
   );

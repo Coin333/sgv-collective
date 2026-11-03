@@ -27,7 +27,7 @@ export function ClubsGrid({ clubs }: { clubs: Club[] }) {
         </label>
         <div className="relative">
           <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-sky-500)]"
+            className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6e6e73]"
             aria-hidden="true"
           />
           <input
@@ -36,7 +36,7 @@ export function ClubsGrid({ clubs }: { clubs: Club[] }) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by school or city"
-            className="w-full bg-white border border-[var(--color-sky-200)] rounded-xl pl-11 pr-4 py-3 text-sm text-[var(--color-navy)] placeholder-[var(--color-sky-500)] focus:outline-none focus:ring-2 focus:ring-[var(--color-baby)] focus:border-transparent transition"
+            className="w-full rounded-full border border-[#1d1d1f]/15 bg-white py-3 pl-11 pr-4 text-sm text-[#1d1d1f] placeholder-[#6e6e73] transition focus:border-[#1d1d1f] focus:outline-none"
           />
         </div>
       </div>
@@ -48,9 +48,9 @@ export function ClubsGrid({ clubs }: { clubs: Club[] }) {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-[var(--color-sky-200)] p-12 text-center">
-          <p className="text-[var(--color-navy)] font-semibold">No matches.</p>
-          <p className="mt-1 text-sm text-[var(--color-sky-700)]">
+        <div className="rounded-[20px] border border-dashed border-[#1d1d1f]/25 p-12 text-center">
+          <p className="font-medium text-[#1d1d1f]">No matches.</p>
+          <p className="mt-1 text-sm text-[#6e6e73]">
             Try a different school or city, or just browse all 20.
           </p>
         </div>
