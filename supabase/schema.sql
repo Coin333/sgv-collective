@@ -126,3 +126,37 @@ create index if not exists rsvps_event_slug_idx on public.rsvps(event_slug);
 create index if not exists rsvps_created_at_idx on public.rsvps(created_at desc);
 create index if not exists contact_created_at_idx
   on public.contact_messages(created_at desc);
+
+-- Editable content (2026-11-04) -----------------------------------------
+-- Columns and the leaders table used by /admin. Also in
+-- supabase/migrations/2026-11-04_editable_content.sql.
+alter table public.events add column if not exists date_label text;
+alter table public.events add column if not exists time_label text;
+alter table public.events add column if not exists is_upcoming boolean not null default false;
+alter table public.events add column if not exists sort_order integer not null default 0;
+alter table public.clubs add column if not exists logo_url text;
+alter table public.clubs add column if not exists instagrams jsonb not null default '[]'::jsonb;
+alter table public.clubs add column if not exists sort_order integer not null default 0;
+
+create table if not exists public.leaders (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  role text not null,
+  era text not null default 'current' check (era in ('current', 'past')),
+  blurb text not null default '',
+  events text[] not null default '{}',
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table public.leaders enable row level security;
+
+drop policy if exists "leaders readable to all" on public.leaders;
+create policy "leaders readable to all"
+  on public.leaders for select using (true);
+
+drop policy if exists "leaders editable by authed" on public.leaders;
+create policy "leaders editable by authed"
+  on public.leaders for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');

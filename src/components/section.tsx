@@ -24,22 +24,20 @@ export function Section({
   align = "left",
   tone = "white",
 }: Props) {
+  const dark = tone === "navy";
   const toneCls =
     tone === "white"
-      ? "bg-white text-[var(--color-navy)]"
+      ? "bg-white text-[#1d1d1f]"
       : tone === "cream"
-        ? "bg-[var(--color-cream)] text-[var(--color-navy)]"
-        : "bg-[var(--color-navy)] text-white";
+        ? "bg-[#f5f5f7] text-[#1d1d1f]"
+        : "bg-[#1d1d1f] text-white";
   return (
     <section
       id={id}
-      className={cn("relative py-20 md:py-28", toneCls, className)}
+      className={cn("relative py-24 md:py-36", toneCls, className)}
     >
       <div
-        className={cn(
-          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-          innerClassName,
-        )}
+        className={cn("mx-auto max-w-[1180px] px-5 sm:px-8", innerClassName)}
       >
         {(eyebrow || title || description) && (
           <header
@@ -51,28 +49,18 @@ export function Section({
             {eyebrow && (
               <p
                 className={cn(
-                  "inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase",
-                  tone === "navy"
-                    ? "text-[var(--color-baby)]"
-                    : "text-[var(--color-sky-600)]",
+                  "text-[11px] font-medium uppercase tracking-[0.16em] sm:text-xs",
+                  dark ? "text-white/60" : "text-[#6e6e73]",
                 )}
               >
-                <span
-                  className={cn(
-                    "w-6 h-px",
-                    tone === "navy"
-                      ? "bg-[var(--color-baby)]"
-                      : "bg-[var(--color-sky-300)]",
-                  )}
-                />
                 {eyebrow}
               </p>
             )}
             {title && (
               <h2
                 className={cn(
-                  "mt-4 text-3xl md:text-5xl font-bold tracking-tight text-balance",
-                  tone === "navy" ? "text-white" : "text-[var(--color-navy)]",
+                  "mt-4 font-display font-semibold tracking-[-0.04em] [line-height:1.02] text-balance text-[clamp(2.25rem,5.2vw,4.25rem)]",
+                  dark ? "text-white" : "text-[#1d1d1f]",
                 )}
               >
                 {title}
@@ -81,10 +69,8 @@ export function Section({
             {description && (
               <p
                 className={cn(
-                  "mt-4 text-base md:text-lg leading-relaxed",
-                  tone === "navy"
-                    ? "text-[var(--color-sky-200)]"
-                    : "text-[var(--color-sky-700)]",
+                  "mt-5 text-base leading-relaxed md:text-lg",
+                  dark ? "text-white/70" : "text-[#6e6e73]",
                 )}
               >
                 {description}
@@ -92,7 +78,7 @@ export function Section({
             )}
           </header>
         )}
-        <div className={cn(title || eyebrow ? "mt-12 md:mt-16" : "")}>
+        <div className={cn(title || eyebrow ? "mt-14 md:mt-20" : "")}>
           {children}
         </div>
       </div>
