@@ -3,7 +3,7 @@ import { Section } from "@/components/section";
 import { EventCard } from "@/components/event-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { CTAButton } from "@/components/buttons";
-import { events } from "@/lib/data/events";
+import { getEvents } from "@/lib/content";
 import { ArrowRight } from "lucide-react";
 
 export const metadata = {
@@ -12,14 +12,10 @@ export const metadata = {
     "Everything Night, worship gatherings, and summer hangs across the SGV.",
 };
 
-const UPCOMING_SLUGS = new Set([
-  "everything-night-may-2026",
-  "worship-nights-summer",
-]);
-
-export default function EventsPage() {
-  const upcoming = events.filter((e) => UPCOMING_SLUGS.has(e.slug));
-  const past = events.filter((e) => !UPCOMING_SLUGS.has(e.slug));
+export default async function EventsPage() {
+  const events = await getEvents();
+  const upcoming = events.filter((e) => e.isUpcoming);
+  const past = events.filter((e) => !e.isUpcoming);
 
   return (
     <>

@@ -25,10 +25,9 @@ export default async function AdminHomePage() {
   const tiles = [
     {
       icon: Calendar,
-      label: "Upcoming events",
-      value: "Everything Night :: May 24",
-      href: "/everything-night",
-      external: false,
+      label: "Content",
+      value: "Gatherings, clubs, leaders",
+      href: "/admin/events",
     },
     {
       icon: Users2,

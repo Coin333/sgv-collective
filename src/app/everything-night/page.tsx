@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { featuredEvent } from "@/lib/data/events";
+import { getFeaturedEvent } from "@/lib/content";
 
 const rsvpUrl = "https://partiful.com/e/gy3BajXzxlnGA6VuPei2?c=Pgd2dAsW";
 
@@ -59,7 +59,8 @@ const photos = [
   { src: "/images/chosen-dab.jpg", alt: "Through Him we are chosen" },
 ];
 
-export default function EverythingNightPage() {
+export default async function EverythingNightPage() {
+  const featuredEvent = await getFeaturedEvent();
   const facts = [
     { label: "Date", value: featuredEvent.date },
     { label: "Doors", value: featuredEvent.time },

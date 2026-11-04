@@ -72,18 +72,18 @@ const edits = [
   },
   {
     what: "Events and gatherings",
-    file: "src/lib/data/events.ts",
-    how: "One object per gathering. Mark the flagship with featured: true.",
+    file: "/admin/events",
+    how: "Edit in the admin. The first time, press Load from the files. src/lib/data/events.ts is the fallback the site shows when the table is empty.",
   },
   {
     what: "Clubs",
-    file: "src/lib/data/clubs.ts",
-    how: "Add the school, city, Instagram handles, and drop a logo in public/images/clubs.",
+    file: "/admin/clubs",
+    how: "Edit in the admin. Logos still go in public/images/clubs in the repo; paste the path into the logo field.",
   },
   {
     what: "Leaders",
-    file: "src/lib/data/leadership.ts",
-    how: "Current team at the top, past teams below. Keep past teams; that is the point.",
+    file: "/admin/leaders",
+    how: "Edit in the admin. In June move graduates to past; never delete them. That is the point.",
   },
   {
     what: "Churches and partners",

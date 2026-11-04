@@ -3,7 +3,8 @@ import { Section } from "@/components/section";
 import { LeaderCard } from "@/components/leader-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { CTAButton } from "@/components/buttons";
-import { leaders, roles } from "@/lib/data/leadership";
+import { roles } from "@/lib/data/leadership";
+import { getLeaders } from "@/lib/content";
 import { ArrowRight } from "lucide-react";
 
 export const metadata = {
@@ -11,7 +12,8 @@ export const metadata = {
   description: "The student leaders running the SGV Christian Club Collective.",
 };
 
-export default function LeadershipPage() {
+export default async function LeadershipPage() {
+  const leaders = await getLeaders();
   const current = leaders.filter((l) => l.era === "current");
   const past = leaders.filter((l) => l.era === "past");
 

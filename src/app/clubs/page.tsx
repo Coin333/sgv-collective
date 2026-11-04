@@ -2,7 +2,7 @@ import { ClubsGrid } from "./clubs-grid";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/section";
 import { CTAButton } from "@/components/buttons";
-import { clubs } from "@/lib/data/clubs";
+import { getClubs } from "@/lib/content";
 import { ArrowRight } from "lucide-react";
 
 export const metadata = {
@@ -11,7 +11,8 @@ export const metadata = {
     "Find your campus. 20 high school Christian clubs across the SGV.",
 };
 
-export default function ClubsPage() {
+export default async function ClubsPage() {
+  const clubs = await getClubs();
   return (
     <>
       <PageHeader

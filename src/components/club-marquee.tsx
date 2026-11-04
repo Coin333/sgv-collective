@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { clubs } from "@/lib/data/clubs";
+import type { Club } from "@/lib/data/clubs";
 
 // One slow line of every campus. Two copies of the list so the loop has no
 // seam; the second is aria-hidden so screen readers hear each club once.
-export function ClubMarquee() {
+export function ClubMarquee({ clubs }: { clubs: Club[] }) {
   return (
     <div
       className="group/marquee relative overflow-hidden border-y border-[#1d1d1f]/10"

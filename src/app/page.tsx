@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ClubMarquee } from "@/components/club-marquee";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Yearbook } from "@/components/yearbook";
-import { clubs } from "@/lib/data/clubs";
+import { getClubs } from "@/lib/content";
 import { years, founded } from "@/lib/data/years";
 import { cn } from "@/lib/utils";
 
@@ -88,7 +88,8 @@ const offers = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const clubs = await getClubs();
   const thisYear = years.find((y) => y.slug === "2026-27") ?? years[0];
   const yearCount = years.filter((y) => !y.open).length;
 
@@ -161,7 +162,7 @@ export default function HomePage() {
         </div>
 
         <ScrollReveal delay={260} className="mt-16 md:mt-24">
-          <ClubMarquee />
+          <ClubMarquee clubs={clubs} />
         </ScrollReveal>
       </section>
 

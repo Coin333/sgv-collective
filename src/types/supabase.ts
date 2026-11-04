@@ -60,6 +60,10 @@ type EventRow = {
   image_url: string | null;
   featured: boolean;
   category: string | null;
+  date_label: string | null;
+  time_label: string | null;
+  is_upcoming: boolean;
+  sort_order: number;
   created_at: string;
 };
 
@@ -75,6 +79,10 @@ type EventInsert = {
   image_url?: string | null;
   featured?: boolean;
   category?: string | null;
+  date_label?: string | null;
+  time_label?: string | null;
+  is_upcoming?: boolean;
+  sort_order?: number;
   created_at?: string;
 };
 
@@ -86,6 +94,9 @@ type ClubRow = {
   city: string | null;
   description: string | null;
   leader_contact: string | null;
+  logo_url: string | null;
+  instagrams: Json;
+  sort_order: number;
   created_at: string;
 };
 
@@ -97,6 +108,31 @@ type ClubInsert = {
   city?: string | null;
   description?: string | null;
   leader_contact?: string | null;
+  logo_url?: string | null;
+  instagrams?: Json;
+  sort_order?: number;
+  created_at?: string;
+};
+
+type LeaderRow = {
+  id: string;
+  name: string;
+  role: string;
+  era: string;
+  blurb: string;
+  events: string[];
+  sort_order: number;
+  created_at: string;
+};
+
+type LeaderInsert = {
+  id?: string;
+  name: string;
+  role: string;
+  era?: string;
+  blurb?: string;
+  events?: string[];
+  sort_order?: number;
   created_at?: string;
 };
 
@@ -139,6 +175,12 @@ export type Database = {
         Row: ClubRow;
         Insert: ClubInsert;
         Update: Partial<ClubInsert>;
+        Relationships: [];
+      };
+      leaders: {
+        Row: LeaderRow;
+        Insert: LeaderInsert;
+        Update: Partial<LeaderInsert>;
         Relationships: [];
       };
       announcements: {
