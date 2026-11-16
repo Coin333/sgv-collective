@@ -4,29 +4,31 @@
   --font-sans: var(--font-inter);
   --font-display: var(--font-inter-tight);
 
-  --color-sky-25: #f5fbff;
-  --color-sky-50: #eff8ff;
-  --color-sky-100: #dceeff;
-  --color-sky-200: #b8dcff;
-  --color-sky-300: #8ec5fb;
-  --color-sky-400: #5ba8f1;
-  --color-sky-500: #3a8de0;
-  --color-sky-600: #2a6fc0;
-  --color-sky-700: #21569a;
-  --color-sky-800: #1a4378;
-  --color-sky-900: #142f55;
-  --color-sky-950: #0d1f3d;
+  /* Legacy names from the blue design, remapped onto the neutral scale so
+     pages not yet rewritten (admin, cutouts) inherit the new palette. */
+  --color-sky-25: #fbfbfd;
+  --color-sky-50: #f5f5f7;
+  --color-sky-100: #e8e8ed;
+  --color-sky-200: #d2d2d7;
+  --color-sky-300: #a1a1a6;
+  --color-sky-400: #86868b;
+  --color-sky-500: #6e6e73;
+  --color-sky-600: #6e6e73;
+  --color-sky-700: #6e6e73;
+  --color-sky-800: #424245;
+  --color-sky-900: #2c2c2e;
+  --color-sky-950: #1d1d1f;
 
-  --color-navy: #0d1f3d;
-  --color-navy-soft: #142f55;
-  --color-baby: #8ec5fb;
-  --color-baby-soft: #b8dcff;
-  --color-cream: #f5fbff;
+  --color-navy: #1d1d1f;
+  --color-navy-soft: #000000;
+  --color-baby: #d2d2d7;
+  --color-baby-soft: #e8e8ed;
+  --color-cream: #f5f5f7;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #0d1f3d;
+  --foreground: #1d1d1f;
 }
 
 html,
@@ -100,28 +102,23 @@ html {
   animation: slow-drift 22s ease-in-out infinite;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+/* Homepage club strip. The track holds two copies of the list, so moving
+   exactly half its width lands on the seam. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
   }
-  100% {
-    background-position: 200% 0;
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    #0d1f3d 0%,
-    #2a6fc0 25%,
-    #8ec5fb 50%,
-    #2a6fc0 75%,
-    #0d1f3d 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 8s linear infinite;
+.marquee-track {
+  animation: marquee 70s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

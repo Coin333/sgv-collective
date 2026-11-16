@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 // exist, they just no longer earn a slot in the bar.
 const links = [
   { href: "/about", label: "About" },
+  { href: "/legacy", label: "Story" },
   { href: "/clubs", label: "Clubs" },
   { href: "/events", label: "Gatherings" },
   { href: "/next-steps", label: "Next Steps" },
@@ -89,7 +90,7 @@ export function ScrollNav() {
           <div className="flex items-center gap-3">
             <Link
               href="/clubs"
-              className="hidden rounded-full bg-[var(--color-navy)] px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-[var(--color-navy-soft)] sm:inline-flex"
+              className="hidden rounded-full bg-[#1d1d1f] px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-black sm:inline-flex"
             >
               Find your club
             </Link>
@@ -152,7 +153,7 @@ export function ScrollNav() {
             <Link
               href="/clubs"
               tabIndex={open ? 0 : -1}
-              className="inline-flex rounded-full bg-[var(--color-navy)] px-5 py-2.5 text-sm font-medium text-white"
+              className="inline-flex rounded-full bg-[#1d1d1f] px-5 py-2.5 text-sm font-medium text-white"
             >
               Find your club
             </Link>

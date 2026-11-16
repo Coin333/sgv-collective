@@ -31,7 +31,7 @@ const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(120),
   email: z.string().trim().email("Enter a valid email").max(200),
   school: z.string().trim().max(160).optional().or(z.literal("")),
-  interest: z.enum(["join", "start", "church", "general", "rsvp-help"]),
+  interest: z.enum(["join", "start", "lead", "church", "general", "rsvp-help"]),
   message: z.string().trim().min(1, "Add a short note").max(2000),
 });
 

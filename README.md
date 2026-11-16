@@ -4,7 +4,7 @@ The official site for the SGV Christian Club Collective: a regional network of 2
 
 > One mission, every campus.
 
-Built with Next.js 16, Tailwind v4, Supabase (auth + database), and zero ego. Deployed on Railway.
+Built with Next.js 16, Tailwind v4, Supabase (auth + database), and zero ego. Deployed on Vercel (every push to `main` goes to production; pull requests get a preview URL), with DNS on Cloudflare.
 
 ## Quick start
 
@@ -83,14 +83,14 @@ This repo ships with `railway.json` and `nixpacks.toml`, so deployment is two st
 
 ## Editing content
 
-| Want to change | File |
-| --- | --- |
-| Clubs list (schools, descriptions) | `src/lib/data/clubs.ts` |
-| Events (Everything Night date, etc.) | `src/lib/data/events.ts` |
-| Leadership team | `src/lib/data/leadership.ts` |
-| Church partners | `src/lib/data/churches.ts` |
-| Site footer copy | `src/components/site-footer.tsx` |
-| Hero copy | `src/app/page.tsx` |
+| Want to change                       | File                             |
+| ------------------------------------ | -------------------------------- |
+| Clubs list (schools, descriptions)   | `src/lib/data/clubs.ts`          |
+| Events (Everything Night date, etc.) | `src/lib/data/events.ts`         |
+| Leadership team                      | `src/lib/data/leadership.ts`     |
+| Church partners                      | `src/lib/data/churches.ts`       |
+| Site footer copy                     | `src/components/site-footer.tsx` |
+| Hero copy                            | `src/app/page.tsx`               |
 
 The DB tables in `supabase/schema.sql` are ready when you want to migrate this static content into a CMS.
 
