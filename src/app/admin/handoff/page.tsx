@@ -43,10 +43,11 @@ const accounts = [
   },
   {
     service: "Database and admin login",
-    where: "Supabase",
-    does: "RSVPs, contact messages, and the admin accounts for this area.",
-    heldBy: "Unconfirmed.",
-    note: "Add admins under Authentication, then Users.",
+    where: "Supabase, project SGV (ref yxytmnjphhujzzzzxjya)",
+    does: "RSVPs, contact messages, gatherings, clubs, leaders, and the admin accounts for this area.",
+    heldBy:
+      "Colin's Supabase account since November 16, 2026. Add a second owner.",
+    note: "Add admins under Authentication, then Users. Free projects pause after a week with no traffic; restore from the dashboard if the site falls back to file content.",
   },
   {
     service: "Instagram",
