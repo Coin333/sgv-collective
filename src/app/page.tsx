@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ClubMarquee } from "@/components/club-marquee";
+import { ValleyHero } from "@/components/valley/valley-hero";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Yearbook } from "@/components/yearbook";
 import { getClubs } from "@/lib/content";
@@ -95,73 +96,10 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero: one sentence beside one photograph, then every campus in a line. */}
-      <section className="bg-white pt-24 md:pt-32">
-        <div className="mx-auto grid max-w-[1180px] gap-12 px-5 sm:px-8 md:grid-cols-12 md:items-end md:gap-8">
-          <div className="md:col-span-7">
-            <ScrollReveal>
-              <Eyebrow>San Gabriel Valley Christian Club Collective</Eyebrow>
-            </ScrollReveal>
-            <ScrollReveal delay={60}>
-              <h1
-                className={cn(
-                  "mt-5 max-w-[11ch] font-display font-semibold tracking-[-0.05em] [line-height:0.92] text-[clamp(3rem,8vw,7.25rem)]",
-                  ink,
-                )}
-              >
-                No Christian student walks{" "}
-                <span className="text-[#1d1d1f]/35">alone.</span>
-              </h1>
-            </ScrollReveal>
-            <ScrollReveal delay={140} className="mt-10 md:mt-14">
-              <p
-                className={cn(
-                  "max-w-md text-lg leading-relaxed md:text-xl",
-                  muted,
-                )}
-              >
-                A network of student-led Christian clubs across twenty high
-                schools in the San Gabriel Valley. Started by students in 2024.
-                Handed to new students every June.
-              </p>
-              <div className="mt-8 flex items-center gap-6">
-                <Link
-                  href="/clubs"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-black"
-                >
-                  Find your club
-                </Link>
-                <TextLink href="/legacy">Our story</TextLink>
-              </div>
-            </ScrollReveal>
-          </div>
-
-          <ScrollReveal delay={200} className="md:col-span-5">
-            <figure>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-[#f5f5f7] md:rounded-[28px]">
-                <Image
-                  src="/images/everything-night-main.jpg"
-                  alt="Over a hundred students on stage at Everything Night, a wooden cross held up on the right"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 480px"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption
-                className={cn(
-                  "mt-4 flex flex-wrap justify-between gap-x-6 gap-y-1 text-xs sm:text-sm",
-                  muted,
-                )}
-              >
-                <span>Everything Night, Pasadena High School</span>
-                <span>May 24, 2026</span>
-              </figcaption>
-            </figure>
-          </ScrollReveal>
-        </div>
-
-        <ScrollReveal delay={260} className="mt-16 md:mt-24">
+      {/* Hero: Isaiah 40:4 over the real valley, then every campus in a line. */}
+      <ValleyHero />
+      <section className="bg-white pt-16 md:pt-24">
+        <ScrollReveal>
           <ClubMarquee clubs={clubs} />
         </ScrollReveal>
       </section>
